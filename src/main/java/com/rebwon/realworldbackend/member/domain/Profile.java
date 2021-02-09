@@ -1,8 +1,15 @@
 package com.rebwon.realworldbackend.member.domain;
 
+import javax.persistence.Embeddable;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Getter
+@Embeddable
+@NoArgsConstructor
 public class Profile {
-  private final String bio;
-  private final String image;
+  private String bio;
+  private String image;
 
   public Profile(String bio, String image) {
     this.bio = bio;

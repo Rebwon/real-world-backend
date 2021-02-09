@@ -1,7 +1,14 @@
 package com.rebwon.realworldbackend.article.domain;
 
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
+import lombok.NoArgsConstructor;
+
+@Embeddable
+@NoArgsConstructor
 public class Slug {
-  private final String value;
+  @Column(name = "slug", nullable = false, unique = true)
+  private String value;
 
   private Slug(String value) {
     this.value = toSlug(value);
