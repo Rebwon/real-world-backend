@@ -28,7 +28,7 @@ public class MemberPersistenceTest extends PersistenceExtension {
   @Rollback(value = false)
   void should_member_change_profile_success() {
     Member member = memberRepository.findByUsername("rebwon").get();
-    member.changeProfile("rebwon@naver.com", "sample bio", "sample image");
+    member.changeProfile("rebwon12", "rebwon@naver.com", "password1", "sample bio", "sample image");
 
     assertThat(member.getEmail()).isEqualTo("rebwon@naver.com");
     assertThat(member.getProfile().getBio()).isEqualTo("sample bio");

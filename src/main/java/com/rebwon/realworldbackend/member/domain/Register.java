@@ -1,6 +1,8 @@
 package com.rebwon.realworldbackend.member.domain;
 
+import com.rebwon.realworldbackend.member.web.request.RegisterRequest;
+
 public interface Register {
 
-  Member register(String username, String email, String password);
+  Member register(RegisterRequest request);
 }

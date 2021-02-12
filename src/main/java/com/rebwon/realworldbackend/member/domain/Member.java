@@ -54,8 +54,10 @@ public class Member {
     return new Member(null, email, username, password, new Profile("", ""));
   }
 
-  public void changeProfile(String email, String bio, String image) {
+  public void changeProfile(String username, String email, String password, String bio, String image) {
+    this.username = username;
     this.email = email;
+    this.password = password;
     this.profile = new Profile(bio, image);
   }
 
