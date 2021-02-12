@@ -61,14 +61,14 @@ public class Member {
 
   public void follow(Member target) {
     if(followed(target)) {
-      throw new IllegalStateException("Exists follow member");
+      throw new ExistsMemberException();
     }
     this.follows.add(target);
   }
 
   public void unfollow(Member target) {
     if(!followed(target)) {
-      throw new IllegalStateException("Could not found member");
+      throw new MemberNotFoundException();
     }
     this.follows.remove(target);
   }

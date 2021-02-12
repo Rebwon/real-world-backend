@@ -1,7 +1,9 @@
-package com.rebwon.realworldbackend.member.domain;
+package com.rebwon.realworldbackend.member.application;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.rebwon.realworldbackend.member.application.MemberValidator;
+import com.rebwon.realworldbackend.member.domain.MemberRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

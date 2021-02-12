@@ -24,7 +24,7 @@ class MemberTest {
     // Assert
     assertThatThrownBy(
         () -> rebwon.follow(kitty)
-    ).isInstanceOf(IllegalStateException.class);
+    ).isInstanceOf(ExistsMemberException.class);
   }
 
   @Test
@@ -42,7 +42,7 @@ class MemberTest {
     // Act & Assert
     assertThatThrownBy(
         () -> rebwon.unfollow(kitty)
-    ).isInstanceOf(IllegalStateException.class);
+    ).isInstanceOf(MemberNotFoundException.class);
   }
 
   @Test

@@ -3,6 +3,7 @@ package com.rebwon.realworldbackend.member.domain;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import com.rebwon.realworldbackend.member.application.MemberManager;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -29,7 +30,7 @@ class LoginTest {
     // Assert
     assertThatThrownBy(
         () -> login.login("rebwon@gmail.com", "password")
-    );
+    ).isInstanceOf(MemberNotFoundException.class);
   }
 
   @Test
@@ -42,7 +43,7 @@ class LoginTest {
     // Act & Assert
     assertThatThrownBy(
         () -> login.login("rebwon@gmail.com", "password")
-    );
+    ).isInstanceOf(PasswordNotMatchedException.class);
   }
 
   @Test

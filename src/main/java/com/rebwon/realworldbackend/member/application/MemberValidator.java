@@ -1,5 +1,6 @@
-package com.rebwon.realworldbackend.member.domain;
+package com.rebwon.realworldbackend.member.application;
 
+import com.rebwon.realworldbackend.member.domain.MemberRepository;
 import org.springframework.stereotype.Component;
 
 @Component
