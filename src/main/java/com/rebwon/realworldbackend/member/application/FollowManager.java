@@ -27,4 +27,14 @@ public class FollowManager {
     member.unfollow(target);
     return ProfileResponse.of(target, member);
   }
+
+  @Transactional(readOnly = true)
+  public ProfileResponse find(Member member, String username) {
+    Member target = memberRepository.findByUsername(username)
+        .orElseThrow(MemberNotFoundException::new);
+    if(member == null) {
+      return ProfileResponse.of(target);
+    }
+    return ProfileResponse.of(target, member);
+  }
 }

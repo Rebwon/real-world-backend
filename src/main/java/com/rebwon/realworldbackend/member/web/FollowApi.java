@@ -6,6 +6,7 @@ import com.rebwon.realworldbackend.member.web.response.ProfileResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,6 +30,13 @@ public class FollowApi {
   public ResponseEntity<ProfileResponse> unFollow(@AuthenticationPrincipal Member member,
       @PathVariable String username) {
     ProfileResponse response = followManager.unfollow(member, username);
+    return ResponseEntity.ok(response);
+  }
+
+  @GetMapping("/api/profiles/{username}")
+  public ResponseEntity<ProfileResponse> find(@AuthenticationPrincipal Member member,
+      @PathVariable String username) {
+    ProfileResponse response = followManager.find(member, username);
     return ResponseEntity.ok(response);
   }
 }

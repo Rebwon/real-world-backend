@@ -38,9 +38,7 @@ public class MemberApiTests extends IntegrationTests {
     );
 
     // Assert
-    actions
-        .andDo(print())
-        .andExpect(status().isUnprocessableEntity());
+    actions.andExpect(status().isUnprocessableEntity());
   }
 
   @Test
@@ -55,9 +53,7 @@ public class MemberApiTests extends IntegrationTests {
     );
 
     // Assert
-    actions
-        .andDo(print())
-        .andExpect(status().isUnprocessableEntity());
+    actions.andExpect(status().isUnprocessableEntity());
   }
 
   @Test
@@ -72,9 +68,7 @@ public class MemberApiTests extends IntegrationTests {
     );
 
     // Assert
-    actions
-        .andDo(print())
-        .andExpect(status().isUnprocessableEntity());
+    actions.andExpect(status().isUnprocessableEntity());
   }
 
   @Test
@@ -89,9 +83,7 @@ public class MemberApiTests extends IntegrationTests {
     );
 
     // Assert
-    actions
-        .andDo(print())
-        .andExpect(status().isUnprocessableEntity());
+    actions.andExpect(status().isUnprocessableEntity());
   }
 
   @Test
@@ -106,9 +98,7 @@ public class MemberApiTests extends IntegrationTests {
     );
 
     // Assert
-    actions
-        .andDo(print())
-        .andExpect(status().isUnprocessableEntity());
+    actions.andExpect(status().isUnprocessableEntity());
   }
 
   @Test
@@ -123,9 +113,7 @@ public class MemberApiTests extends IntegrationTests {
     );
 
     // Assert
-    actions
-        .andDo(print())
-        .andExpect(status().isUnprocessableEntity());
+    actions.andExpect(status().isUnprocessableEntity());
   }
 
   @Test
@@ -141,7 +129,6 @@ public class MemberApiTests extends IntegrationTests {
 
     // Assert
     actions
-        .andDo(print())
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.user.username").value("kitty"))
         .andExpect(jsonPath("$.user.email").value("kitty@gmail.com"));
@@ -159,9 +146,7 @@ public class MemberApiTests extends IntegrationTests {
     );
 
     // Assert
-    actions
-        .andDo(print())
-        .andExpect(status().isUnprocessableEntity());
+    actions.andExpect(status().isUnprocessableEntity());
   }
 
   @Test
@@ -176,9 +161,7 @@ public class MemberApiTests extends IntegrationTests {
     );
 
     // Assert
-    actions
-        .andDo(print())
-        .andExpect(status().isUnprocessableEntity());
+    actions.andExpect(status().isUnprocessableEntity());
   }
 
   @Test
@@ -194,7 +177,6 @@ public class MemberApiTests extends IntegrationTests {
 
     // Assert
     actions
-        .andDo(print())
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.user.token").isString());
   }
@@ -209,7 +191,6 @@ public class MemberApiTests extends IntegrationTests {
 
     // Assert
     actions
-        .andDo(print())
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.user.token").isString());
   }
@@ -227,9 +208,7 @@ public class MemberApiTests extends IntegrationTests {
     );
 
     // Assert
-    actions
-        .andDo(print())
-        .andExpect(status().isUnprocessableEntity());
+    actions.andExpect(status().isUnprocessableEntity());
   }
 
   @Test
@@ -245,9 +224,7 @@ public class MemberApiTests extends IntegrationTests {
     );
 
     // Assert
-    actions
-        .andDo(print())
-        .andExpect(status().isUnprocessableEntity());
+    actions.andExpect(status().isUnprocessableEntity());
   }
 
   @Test
@@ -264,7 +241,10 @@ public class MemberApiTests extends IntegrationTests {
 
     // Assert
     actions
-        .andDo(print())
-        .andExpect(status().isOk());
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.user.username").value("kitty"))
+        .andExpect(jsonPath("$.user.email").value("kitty@gmail.com"))
+        .andExpect(jsonPath("$.user.bio").value("sample"))
+        .andExpect(jsonPath("$.user.image").value("sample"));
   }
 }

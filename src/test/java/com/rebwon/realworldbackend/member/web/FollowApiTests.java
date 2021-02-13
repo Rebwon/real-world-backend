@@ -1,8 +1,8 @@
 package com.rebwon.realworldbackend.member.web;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -41,9 +41,7 @@ class FollowApiTests extends IntegrationTests {
     );
 
     // Assert
-    actions
-        .andDo(print())
-        .andExpect(status().isUnprocessableEntity());
+    actions.andExpect(status().isUnprocessableEntity());
   }
 
   @Test
@@ -59,7 +57,6 @@ class FollowApiTests extends IntegrationTests {
 
     // Assert
     actions
-        .andDo(print())
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.profile.following").value(true));
   }
@@ -73,9 +70,7 @@ class FollowApiTests extends IntegrationTests {
     );
 
     // Assert
-    actions
-        .andDo(print())
-        .andExpect(status().isUnprocessableEntity());
+    actions.andExpect(status().isUnprocessableEntity());
   }
 
   @Test
@@ -92,8 +87,42 @@ class FollowApiTests extends IntegrationTests {
 
     // Assert
     actions
-        .andDo(print())
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$.profile.following").value(false));;
+        .andExpect(jsonPath("$.profile.following").value(false));
+  }
+
+  @Test
+  void should_find_profile_no_authentication() throws Exception {
+    setupMember.follow(target);
+    final String username = "kitty";
+
+    // Act
+    final ResultActions actions = mockMvc.perform(get("/api/profiles/" + username)
+        .contentType(MediaType.APPLICATION_JSON)
+    );
+
+    // Assert
+    actions
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.profile.following").value(false))
+        .andExpect(jsonPath("$.profile.username").value("kitty"));
+  }
+
+  @Test
+  void should_find_profile_authentication() throws Exception {
+    setupMember.follow(target);
+    final String username = "kitty";
+
+    // Act
+    final ResultActions actions = mockMvc.perform(get("/api/profiles/" + username)
+        .contentType(MediaType.APPLICATION_JSON)
+        .header(AUTHORIZATION, setUpToken)
+    );
+
+    // Assert
+    actions
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.profile.following").value(true))
+        .andExpect(jsonPath("$.profile.username").value("kitty"));
   }
 }
