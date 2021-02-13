@@ -7,46 +7,19 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.rebwon.realworldbackend.common.security.TokenFactory;
-import com.rebwon.realworldbackend.member.domain.Member;
-import com.rebwon.realworldbackend.member.domain.MemberRepository;
+import com.rebwon.realworldbackend.IntegrationTests;
 import com.rebwon.realworldbackend.member.web.request.LoginRequest;
 import com.rebwon.realworldbackend.member.web.request.ProfileUpdateRequest;
 import com.rebwon.realworldbackend.member.web.request.RegisterRequest;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.transaction.annotation.Transactional;
 
-@SpringBootTest
-@ActiveProfiles("test")
-@AutoConfigureMockMvc
-@Transactional
-public class MemberApiTests {
-  private static final String AUTHORIZATION = "Authorization";
-
-  @Autowired private ObjectMapper objectMapper;
-  @Autowired private MockMvc mockMvc;
-  @Autowired private MemberRepository memberRepository;
-  @Autowired private PasswordEncoder passwordEncoder;
-  @Autowired private TokenFactory tokenFactory;
-  private String setUpToken;
-  private Member setupMember;
-
-  @BeforeEach
-  void setUp() {
-    setupMember = memberRepository.save(Member.register("rebwon@gmail.com", "rebwon", passwordEncoder.encode("password")));
-    setUpToken = "Token " + tokenFactory.create(setupMember);
-  }
+public class MemberApiTests extends IntegrationTests {
+  private static final String REGISTER_API = "/api/users";
+  private static final String LOGIN_API = "/api/users/login";
+  private static final String USER_API = "/api/user";
 
   @AfterEach
   void tearDown() {
@@ -59,7 +32,7 @@ public class MemberApiTests {
     RegisterRequest request = new RegisterRequest("", "rebwon@gmail.com", "password");
 
     // Act
-    final ResultActions actions = mockMvc.perform(post("/api/users")
+    final ResultActions actions = mockMvc.perform(post(REGISTER_API)
         .content(objectMapper.writeValueAsString(request))
         .contentType(MediaType.APPLICATION_JSON)
     );
@@ -76,7 +49,7 @@ public class MemberApiTests {
     RegisterRequest request = new RegisterRequest("rebwon", "", "password");
 
     // Act
-    final ResultActions actions = mockMvc.perform(post("/api/users")
+    final ResultActions actions = mockMvc.perform(post(REGISTER_API)
         .content(objectMapper.writeValueAsString(request))
         .contentType(MediaType.APPLICATION_JSON)
     );
@@ -93,7 +66,7 @@ public class MemberApiTests {
     RegisterRequest request = new RegisterRequest("rebwon", "rebwon.com", "password");
 
     // Act
-    final ResultActions actions = mockMvc.perform(post("/api/users")
+    final ResultActions actions = mockMvc.perform(post(REGISTER_API)
         .content(objectMapper.writeValueAsString(request))
         .contentType(MediaType.APPLICATION_JSON)
     );
@@ -110,7 +83,7 @@ public class MemberApiTests {
     RegisterRequest request = new RegisterRequest("rebwon", "rebwon@gmail.com", "pasd");
 
     // Act
-    final ResultActions actions = mockMvc.perform(post("/api/users")
+    final ResultActions actions = mockMvc.perform(post(REGISTER_API)
         .content(objectMapper.writeValueAsString(request))
         .contentType(MediaType.APPLICATION_JSON)
     );
@@ -127,7 +100,7 @@ public class MemberApiTests {
     RegisterRequest request = new RegisterRequest("rebwon", "rebwon@gmail.com", "password");
 
     // Act
-    final ResultActions actions = mockMvc.perform(post("/api/users")
+    final ResultActions actions = mockMvc.perform(post(REGISTER_API)
         .content(objectMapper.writeValueAsString(request))
         .contentType(MediaType.APPLICATION_JSON)
     );
@@ -144,7 +117,7 @@ public class MemberApiTests {
     RegisterRequest request = new RegisterRequest("rebwon", "rebwon@gmail.com", "password");
 
     // Act
-    final ResultActions actions = mockMvc.perform(post("/api/users")
+    final ResultActions actions = mockMvc.perform(post(REGISTER_API)
         .content(objectMapper.writeValueAsString(request))
         .contentType(MediaType.APPLICATION_JSON)
     );
@@ -161,7 +134,7 @@ public class MemberApiTests {
     RegisterRequest request = new RegisterRequest("kitty", "kitty@gmail.com", "password");
 
     // Act
-    final ResultActions actions = mockMvc.perform(post("/api/users")
+    final ResultActions actions = mockMvc.perform(post(REGISTER_API)
         .content(objectMapper.writeValueAsString(request))
         .contentType(MediaType.APPLICATION_JSON)
     );
@@ -180,7 +153,7 @@ public class MemberApiTests {
     LoginRequest request = new LoginRequest("kitty@gmail.com", "password");
 
     // Act
-    final ResultActions actions = mockMvc.perform(post("/api/users/login")
+    final ResultActions actions = mockMvc.perform(post(LOGIN_API)
         .content(objectMapper.writeValueAsString(request))
         .contentType(MediaType.APPLICATION_JSON)
     );
@@ -197,7 +170,7 @@ public class MemberApiTests {
     LoginRequest request = new LoginRequest("rebwon@gmail.com", "wrongpass");
 
     // Act
-    final ResultActions actions = mockMvc.perform(post("/api/users/login")
+    final ResultActions actions = mockMvc.perform(post(LOGIN_API)
         .content(objectMapper.writeValueAsString(request))
         .contentType(MediaType.APPLICATION_JSON)
     );
@@ -214,7 +187,7 @@ public class MemberApiTests {
     LoginRequest request = new LoginRequest("rebwon@gmail.com", "password");
 
     // Act
-    final ResultActions actions = mockMvc.perform(post("/api/users/login")
+    final ResultActions actions = mockMvc.perform(post(LOGIN_API)
         .content(objectMapper.writeValueAsString(request))
         .contentType(MediaType.APPLICATION_JSON)
     );
@@ -229,7 +202,7 @@ public class MemberApiTests {
   @Test
   void should_member_find_success() throws Exception {
     // Act
-    final ResultActions actions = mockMvc.perform(get("/api/user")
+    final ResultActions actions = mockMvc.perform(get(USER_API)
         .header(AUTHORIZATION, setUpToken)
         .contentType(MediaType.APPLICATION_JSON)
     );
@@ -247,7 +220,7 @@ public class MemberApiTests {
     ProfileUpdateRequest request = new ProfileUpdateRequest("rebwon", "rebwon@gmail.com", "password", "", "");
 
     // Act
-    final ResultActions actions = mockMvc.perform(put("/api/user")
+    final ResultActions actions = mockMvc.perform(put(USER_API)
         .header(AUTHORIZATION, setUpToken)
         .content(objectMapper.writeValueAsString(request))
         .contentType(MediaType.APPLICATION_JSON)
@@ -265,7 +238,7 @@ public class MemberApiTests {
     ProfileUpdateRequest request = new ProfileUpdateRequest("kitty", "rebwon@gmail.com", "password", "", "");
 
     // Act
-    final ResultActions actions = mockMvc.perform(put("/api/user")
+    final ResultActions actions = mockMvc.perform(put(USER_API)
         .header(AUTHORIZATION, setUpToken)
         .content(objectMapper.writeValueAsString(request))
         .contentType(MediaType.APPLICATION_JSON)
@@ -283,7 +256,7 @@ public class MemberApiTests {
     ProfileUpdateRequest request = new ProfileUpdateRequest("kitty", "kitty@gmail.com", "passwords", "sample", "sample");
 
     // Act
-    final ResultActions actions = mockMvc.perform(put("/api/user")
+    final ResultActions actions = mockMvc.perform(put(USER_API)
         .header(AUTHORIZATION, setUpToken)
         .content(objectMapper.writeValueAsString(request))
         .contentType(MediaType.APPLICATION_JSON)
