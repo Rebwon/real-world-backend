@@ -1,10 +1,13 @@
 package com.rebwon.realworldbackend.article.application;
 
 import com.rebwon.realworldbackend.article.domain.Article;
+import com.rebwon.realworldbackend.article.domain.ArticleNotFoundException;
 import com.rebwon.realworldbackend.article.domain.ArticleRepository;
 import com.rebwon.realworldbackend.article.domain.Tag;
 import com.rebwon.realworldbackend.article.domain.TagRepository;
+import com.rebwon.realworldbackend.article.domain.WrongAuthorException;
 import com.rebwon.realworldbackend.article.web.request.CreateArticleRequest;
+import com.rebwon.realworldbackend.article.web.request.UpdateArticleRequest;
 import com.rebwon.realworldbackend.member.domain.Member;
 import java.util.Optional;
 import org.springframework.stereotype.Component;
@@ -32,5 +35,26 @@ public class ArticleManager {
     }
     articleRepository.save(article);
     return article;
+  }
+
+  public Article findOne(String slug) {
+    return articleRepository.findBySlug_Value(slug).orElseThrow(ArticleNotFoundException::new);
+  }
+
+  public Article update(String slug, Member member, UpdateArticleRequest request) {
+    Article article = findOne(slug);
+    if(!article.verifyAuthor(member)) {
+      throw new WrongAuthorException(member.getUsername() + " wrong author");
+    }
+    article.modify(request.getTitle(), request.getDescription(), request.getBody());
+    return article;
+  }
+
+  public void delete(String slug, Member member) {
+    Article article = findOne(slug);
+    if(!article.verifyAuthor(member)) {
+      throw new WrongAuthorException(member.getUsername() + " wrong author");
+    }
+    articleRepository.delete(article);
   }
 }

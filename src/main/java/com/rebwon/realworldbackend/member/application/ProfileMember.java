@@ -12,4 +12,8 @@ public class ProfileMember {
     this.member = member;
     this.following = following;
   }
+
+  public ProfileMember(Member member) {
+    this(member, false);
+  }
 }

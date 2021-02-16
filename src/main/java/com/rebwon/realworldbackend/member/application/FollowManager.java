@@ -33,7 +33,7 @@ public class FollowManager {
     Member target = memberRepository.findByUsername(username)
         .orElseThrow(MemberNotFoundException::new);
     if(Optional.ofNullable(member).isEmpty()) {
-      return new ProfileMember(target, false);
+      return new ProfileMember(target);
     }
     return new ProfileMember(target, member.followed(target));
   }
