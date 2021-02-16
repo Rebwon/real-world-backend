@@ -3,7 +3,6 @@ package com.rebwon.realworldbackend.member.application;
 import com.rebwon.realworldbackend.member.domain.Member;
 import com.rebwon.realworldbackend.member.domain.MemberNotFoundException;
 import com.rebwon.realworldbackend.member.domain.MemberRepository;
-import com.rebwon.realworldbackend.member.domain.ProfileMember;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

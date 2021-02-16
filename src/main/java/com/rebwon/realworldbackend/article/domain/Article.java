@@ -58,7 +58,7 @@ public class Article {
     this.changeHistory = new ChangeHistory();
   }
 
-  public static Article write(String title, String description, String body, Member author) {
+  public static Article create(String title, String description, String body, Member author) {
     return new Article(null, title, Slug.from(title), description, body, author);
   }
 

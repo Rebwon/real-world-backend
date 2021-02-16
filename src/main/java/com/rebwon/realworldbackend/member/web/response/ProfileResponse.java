@@ -1,7 +1,7 @@
 package com.rebwon.realworldbackend.member.web.response;
 
 import com.fasterxml.jackson.annotation.JsonRootName;
-import com.rebwon.realworldbackend.member.domain.ProfileMember;
+import com.rebwon.realworldbackend.member.application.ProfileMember;
 import lombok.Getter;
 
 @Getter

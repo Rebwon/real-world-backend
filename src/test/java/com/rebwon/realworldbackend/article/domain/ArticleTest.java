@@ -16,7 +16,7 @@ class ArticleTest {
   void setUp() {
     author = Member.register("rebwon", "rebwon@gmail.com", "password");
     member = Member.register("kitty", "kitty@gmail.com", "password");
-    article = Article.write("test title", "test desc", "test body", author);
+    article = Article.create("test title", "test desc", "test body", author);
   }
 
   @Test

@@ -22,7 +22,7 @@ public class Slug {
     return new Slug(rawTitle);
   }
 
-  public String getValue() {
+  public String value() {
     return value;
   }
 }

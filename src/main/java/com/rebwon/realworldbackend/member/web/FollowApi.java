@@ -1,7 +1,7 @@
 package com.rebwon.realworldbackend.member.web;
 
 import com.rebwon.realworldbackend.member.application.FollowManager;
-import com.rebwon.realworldbackend.member.domain.ProfileMember;
+import com.rebwon.realworldbackend.member.application.ProfileMember;
 import com.rebwon.realworldbackend.member.domain.Member;
 import com.rebwon.realworldbackend.member.web.response.ProfileResponse;
 import org.springframework.http.ResponseEntity;
