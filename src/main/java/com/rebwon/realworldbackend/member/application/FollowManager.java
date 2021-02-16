@@ -3,7 +3,8 @@ package com.rebwon.realworldbackend.member.application;
 import com.rebwon.realworldbackend.member.domain.Member;
 import com.rebwon.realworldbackend.member.domain.MemberNotFoundException;
 import com.rebwon.realworldbackend.member.domain.MemberRepository;
-import com.rebwon.realworldbackend.member.web.response.ProfileResponse;
+import com.rebwon.realworldbackend.member.domain.ProfileMember;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,27 +15,27 @@ import org.springframework.transaction.annotation.Transactional;
 public class FollowManager {
   private final MemberRepository memberRepository;
 
-  public ProfileResponse follow(Member member, String username) {
+  public ProfileMember follow(Member member, String username) {
     Member target = memberRepository.findByUsername(username)
         .orElseThrow(MemberNotFoundException::new);
     member.follow(target);
-    return ProfileResponse.of(target, member);
+    return new ProfileMember(target, member.followed(target));
   }
 
-  public ProfileResponse unfollow(Member member, String username) {
+  public ProfileMember unfollow(Member member, String username) {
     Member target = memberRepository.findByUsername(username)
         .orElseThrow(MemberNotFoundException::new);
     member.unfollow(target);
-    return ProfileResponse.of(target, member);
+    return new ProfileMember(target, member.followed(target));
   }
 
   @Transactional(readOnly = true)
-  public ProfileResponse find(Member member, String username) {
+  public ProfileMember find(Member member, String username) {
     Member target = memberRepository.findByUsername(username)
         .orElseThrow(MemberNotFoundException::new);
-    if(member == null) {
-      return ProfileResponse.of(target);
+    if(Optional.ofNullable(member).isEmpty()) {
+      return new ProfileMember(target, false);
     }
-    return ProfileResponse.of(target, member);
+    return new ProfileMember(target, member.followed(target));
   }
 }

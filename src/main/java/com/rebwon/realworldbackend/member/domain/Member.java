@@ -40,8 +40,8 @@ public class Member {
   private String password;
   @Embedded
   private ChangeHistory changeHistory;
-  @Embedded
-  private Profile profile;
+  private String image;
+  private String bio;
   @ManyToMany
   @JoinTable(name = "member_follows",
       joinColumns = @JoinColumn(name = "follower_id"),
@@ -49,24 +49,26 @@ public class Member {
   )
   private Set<Member> follows = new HashSet<>();
 
-  private Member(Long id, String email, String username, String password, Profile profile) {
+  private Member(Long id, String email, String username, String password, String image, String bio) {
     this.id = id;
     this.email = email;
     this.username = username;
     this.password = password;
-    this.profile = profile;
+    this.image = image;
+    this.bio = bio;
     this.changeHistory = new ChangeHistory();
   }
 
   public static Member register(String email, String username, String password) {
-    return new Member(null, email, username, password, new Profile("", ""));
+    return new Member(null, email, username, password, "", "");
   }
 
   public void changeProfile(String username, String email, String password, String bio, String image) {
     this.username = username;
     this.email = email;
     this.password = password;
-    this.profile = new Profile(bio, image);
+    this.image = image;
+    this.bio = bio;
   }
 
   public void follow(Member target) {

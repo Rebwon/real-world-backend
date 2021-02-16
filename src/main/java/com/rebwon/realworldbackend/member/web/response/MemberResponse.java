@@ -24,11 +24,11 @@ public class MemberResponse {
 
   public static MemberResponse of(Member member) {
     return new MemberResponse(member.getEmail(), "", member.getUsername(),
-        member.getProfile().getBio(), member.getProfile().getImage());
+        member.getBio(), member.getImage());
   }
 
   public static MemberResponse of(Member member, String token) {
     return new MemberResponse(member.getEmail(), token, member.getUsername(),
-        member.getProfile().getBio(), member.getProfile().getImage());
+        member.getBio(), member.getImage());
   }
 }

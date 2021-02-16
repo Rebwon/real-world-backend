@@ -1,6 +1,7 @@
 package com.rebwon.realworldbackend.member.web;
 
 import com.rebwon.realworldbackend.member.application.FollowManager;
+import com.rebwon.realworldbackend.member.domain.ProfileMember;
 import com.rebwon.realworldbackend.member.domain.Member;
 import com.rebwon.realworldbackend.member.web.response.ProfileResponse;
 import org.springframework.http.ResponseEntity;
@@ -22,21 +23,21 @@ public class FollowApi {
   @PostMapping("/api/profiles/{username}/follow")
   public ResponseEntity<ProfileResponse> following(@AuthenticationPrincipal Member member,
       @PathVariable String username) {
-    ProfileResponse response = followManager.follow(member, username);
-    return ResponseEntity.ok(response);
+    ProfileMember profileMember = followManager.follow(member, username);
+    return ResponseEntity.ok(ProfileResponse.of(profileMember));
   }
 
   @DeleteMapping("/api/profiles/{username}/follow")
   public ResponseEntity<ProfileResponse> unFollow(@AuthenticationPrincipal Member member,
       @PathVariable String username) {
-    ProfileResponse response = followManager.unfollow(member, username);
-    return ResponseEntity.ok(response);
+    ProfileMember profileMember = followManager.unfollow(member, username);
+    return ResponseEntity.ok(ProfileResponse.of(profileMember));
   }
 
   @GetMapping("/api/profiles/{username}")
   public ResponseEntity<ProfileResponse> find(@AuthenticationPrincipal Member member,
       @PathVariable String username) {
-    ProfileResponse response = followManager.find(member, username);
-    return ResponseEntity.ok(response);
+    ProfileMember profileMember = followManager.find(member, username);
+    return ResponseEntity.ok(ProfileResponse.of(profileMember));
   }
 }
