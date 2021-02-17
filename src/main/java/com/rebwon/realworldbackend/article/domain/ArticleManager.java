@@ -1,20 +1,12 @@
-package com.rebwon.realworldbackend.article.application;
+package com.rebwon.realworldbackend.article.domain;
 
-import com.rebwon.realworldbackend.article.domain.Article;
-import com.rebwon.realworldbackend.article.domain.ArticleNotFoundException;
-import com.rebwon.realworldbackend.article.domain.ArticleRepository;
-import com.rebwon.realworldbackend.article.domain.Tag;
-import com.rebwon.realworldbackend.article.domain.TagRepository;
-import com.rebwon.realworldbackend.article.domain.WrongAuthorException;
-import com.rebwon.realworldbackend.article.web.request.CreateArticleRequest;
-import com.rebwon.realworldbackend.article.web.request.UpdateArticleRequest;
+import com.rebwon.realworldbackend.article.application.command.CreateArticleCommand;
+import com.rebwon.realworldbackend.article.application.command.UpdateArticleCommand;
 import com.rebwon.realworldbackend.member.domain.Member;
 import java.util.Optional;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 @Component
-@Transactional
 public class ArticleManager {
   private final ArticleRepository articleRepository;
   private final TagRepository tagRepository;
@@ -26,9 +18,9 @@ public class ArticleManager {
     this.tagRepository = tagRepository;
   }
 
-  public Article create(Member member, CreateArticleRequest request) {
-    Article article = Article.create(request.getTitle(), request.getDescription(), request.getBody(), member);
-    for(String tagName : request.getTagList()) {
+  public Article create(Member member, CreateArticleCommand command) {
+    Article article = Article.create(command.getTitle(), command.getDescription(), command.getBody(), member);
+    for(String tagName : command.getTagList()) {
       Tag tag = Optional.ofNullable(tagRepository.findByName(tagName))
           .orElseGet(() -> tagRepository.save(new Tag(tagName)));
       article.addTag(tag);
@@ -41,12 +33,12 @@ public class ArticleManager {
     return articleRepository.findBySlug_Value(slug).orElseThrow(ArticleNotFoundException::new);
   }
 
-  public Article update(String slug, Member member, UpdateArticleRequest request) {
+  public Article update(String slug, Member member, UpdateArticleCommand command) {
     Article article = findOne(slug);
     if(!article.verifyAuthor(member)) {
       throw new WrongAuthorException(member.getUsername() + " wrong author");
     }
-    article.modify(request.getTitle(), request.getDescription(), request.getBody());
+    article.modify(command.getTitle(), command.getDescription(), command.getBody());
     return article;
   }
 

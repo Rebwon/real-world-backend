@@ -1,6 +1,7 @@
 package com.rebwon.realworldbackend.article.web.request;
 
 import com.fasterxml.jackson.annotation.JsonRootName;
+import com.rebwon.realworldbackend.article.application.command.CreateArticleCommand;
 import java.util.List;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -21,5 +22,9 @@ public class CreateArticleRequest {
   private String body;
   @Size(max = 3, message = "too many tags")
   private List<String> tagList;
+
+  public CreateArticleCommand toCommand() {
+    return new CreateArticleCommand(this.title, this.description, this.body, this.tagList);
+  }
 }
 

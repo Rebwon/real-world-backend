@@ -1,9 +1,10 @@
 package com.rebwon.realworldbackend.article.application;
 
+import com.rebwon.realworldbackend.article.application.command.CreateArticleCommand;
+import com.rebwon.realworldbackend.article.application.command.UpdateArticleCommand;
 import com.rebwon.realworldbackend.article.domain.Article;
+import com.rebwon.realworldbackend.article.domain.ArticleManager;
 import com.rebwon.realworldbackend.article.domain.Tag;
-import com.rebwon.realworldbackend.article.web.request.CreateArticleRequest;
-import com.rebwon.realworldbackend.article.web.request.UpdateArticleRequest;
 import com.rebwon.realworldbackend.article.web.response.ArticleResponse;
 import com.rebwon.realworldbackend.member.application.ProfileMember;
 import com.rebwon.realworldbackend.member.domain.Member;
@@ -21,8 +22,8 @@ public class ArticleFacadeService {
     this.manager = manager;
   }
 
-  public ArticleResponse create(Member member, CreateArticleRequest request) {
-    Article article = manager.create(member, request);
+  public ArticleResponse create(Member member, CreateArticleCommand command) {
+    Article article = manager.create(member, command);
     ProfileMember profileMember = new ProfileMember(member);
     return ArticleResponse.of(article, toArray(article.getTags()), ProfileResponse.of(profileMember));
   }
@@ -37,8 +38,8 @@ public class ArticleFacadeService {
     return ArticleResponse.of(article, toArray(article.getTags()), ProfileResponse.of(profileMember));
   }
 
-  public ArticleResponse update(String slug, Member member, UpdateArticleRequest request) {
-    Article article = manager.update(slug, member, request);
+  public ArticleResponse update(String slug, Member member, UpdateArticleCommand command) {
+    Article article = manager.update(slug, member, command);
     ProfileMember profileMember = new ProfileMember(article.getAuthor());
     return ArticleResponse.of(article, toArray(article.getTags()), ProfileResponse.of(profileMember));
   }

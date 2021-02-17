@@ -36,7 +36,7 @@ public class ArticleApi {
     if(validator.verifySlug(Slug.from(request.getTitle()).value())) {
       throw new DuplicateSlugException();
     }
-    ArticleResponse response = facadeService.create(member, request);
+    ArticleResponse response = facadeService.create(member, request.toCommand());
     return ResponseEntity.ok(response);
   }
 
@@ -49,7 +49,7 @@ public class ArticleApi {
   @PutMapping("/api/articles/{slug}")
   public ResponseEntity<ArticleResponse> update(@PathVariable String slug,
       @AuthenticationPrincipal Member member, @RequestBody @Valid UpdateArticleRequest request) {
-    ArticleResponse response = facadeService.update(slug, member, request);
+    ArticleResponse response = facadeService.update(slug, member, request.toCommand());
     return ResponseEntity.ok(response);
   }
 
