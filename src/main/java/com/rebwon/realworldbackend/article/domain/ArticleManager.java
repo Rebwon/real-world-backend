@@ -19,14 +19,17 @@ public class ArticleManager {
   }
 
   public Article create(Member member, CreateArticleCommand command) {
+    if(articleRepository.existsBySlug_Value(Slug.from(command.getTitle()).value())) {
+      throw new DuplicateSlugException();
+    }
+
     Article article = Article.create(command.getTitle(), command.getDescription(), command.getBody(), member);
     for(String tagName : command.getTagList()) {
       Tag tag = Optional.ofNullable(tagRepository.findByName(tagName))
           .orElseGet(() -> tagRepository.save(new Tag(tagName)));
       article.addTag(tag);
     }
-    articleRepository.save(article);
-    return article;
+    return articleRepository.save(article);
   }
 
   public Article findOne(String slug) {
