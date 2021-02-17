@@ -54,4 +54,16 @@ public class ArticleManager {
     }
     articleRepository.delete(article);
   }
+
+  public Article favorite(String slug, Member member) {
+    Article article = findOne(slug);
+    article.favorites(member);
+    return article;
+  }
+
+  public Article unFavorite(String slug, Member member) {
+    Article article = findOne(slug);
+    article.unFavorites(member);
+    return article;
+  }
 }

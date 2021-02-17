@@ -2,6 +2,7 @@ package com.rebwon.realworldbackend.article.domain;
 
 import com.rebwon.realworldbackend.common.domain.ChangeHistory;
 import com.rebwon.realworldbackend.member.domain.Member;
+import com.rebwon.realworldbackend.member.domain.MemberNotFoundException;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Column;
@@ -15,12 +16,22 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedAttributeNode;
+import javax.persistence.NamedEntityGraph;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
 
+@NamedEntityGraph(
+    name = "article-all-fetch",
+    attributeNodes = {
+        @NamedAttributeNode("author"),
+        @NamedAttributeNode("tags"),
+        @NamedAttributeNode("favorites")
+    }
+)
 @Entity
 @Getter
 @DynamicUpdate
@@ -83,20 +94,20 @@ public class Article {
   }
 
   public void favorites(Member target) {
-    if (verifyFavorites(target)) {
-      throw new IllegalStateException("already favorites this article");
+    if (favorited(target)) {
+      throw new AlreadyFavoritedException("already favorites this article");
     }
     this.favorites.add(target);
   }
 
   public void unFavorites(Member target) {
-    if (!verifyFavorites(target)) {
-      throw new IllegalStateException("Could not found member");
+    if (!favorited(target)) {
+      throw new MemberNotFoundException();
     }
     this.favorites.remove(target);
   }
 
-  public boolean verifyFavorites(Member target) {
+  public boolean favorited(Member target) {
     return this.favorites.contains(target);
   }
 

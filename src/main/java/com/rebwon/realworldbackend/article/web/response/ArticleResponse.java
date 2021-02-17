@@ -2,6 +2,7 @@ package com.rebwon.realworldbackend.article.web.response;
 
 import com.fasterxml.jackson.annotation.JsonRootName;
 import com.rebwon.realworldbackend.article.domain.Article;
+import com.rebwon.realworldbackend.member.application.ProfileMember;
 import com.rebwon.realworldbackend.member.web.response.ProfileResponse;
 import java.time.LocalDateTime;
 import lombok.Getter;
@@ -36,11 +37,11 @@ public class ArticleResponse {
     this.author = author;
   }
 
-  public static ArticleResponse of(Article article, String[] tagList, ProfileResponse response) {
+  public static ArticleResponse of(Article article, String[] tagList, ProfileMember member) {
     return new ArticleResponse(article.getSlug().value(), article.getTitle(),
         article.getDescription(), article.getBody(), tagList, article.getChangeHistory()
-        .getCreatedAt(), article.getChangeHistory().getModifiedAt(), false,
+        .getCreatedAt(), article.getChangeHistory().getModifiedAt(), article.favorited(member.getMember()),
         article.favoritesCount(),
-        response);
+        ProfileResponse.of(member));
   }
 }

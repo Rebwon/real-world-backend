@@ -8,7 +8,6 @@ import com.rebwon.realworldbackend.article.domain.Tag;
 import com.rebwon.realworldbackend.article.web.response.ArticleResponse;
 import com.rebwon.realworldbackend.member.application.ProfileMember;
 import com.rebwon.realworldbackend.member.domain.Member;
-import com.rebwon.realworldbackend.member.web.response.ProfileResponse;
 import java.util.Set;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,7 +26,7 @@ public class ArticleFacadeService {
     Article article = manager.create(member, command);
     ProfileMember profileMember = new ProfileMember(member);
     return ArticleResponse
-        .of(article, toArray(article.getTags()), ProfileResponse.of(profileMember));
+        .of(article, toArray(article.getTags()), profileMember);
   }
 
   private String[] toArray(Set<Tag> tags) {
@@ -38,17 +37,31 @@ public class ArticleFacadeService {
     Article article = manager.findOne(slug);
     ProfileMember profileMember = new ProfileMember(article.getAuthor());
     return ArticleResponse
-        .of(article, toArray(article.getTags()), ProfileResponse.of(profileMember));
+        .of(article, toArray(article.getTags()), profileMember);
   }
 
   public ArticleResponse update(String slug, Member member, UpdateArticleCommand command) {
     Article article = manager.update(slug, member, command);
     ProfileMember profileMember = new ProfileMember(article.getAuthor());
     return ArticleResponse
-        .of(article, toArray(article.getTags()), ProfileResponse.of(profileMember));
+        .of(article, toArray(article.getTags()), profileMember);
   }
 
   public void delete(String slug, Member member) {
     manager.delete(slug, member);
+  }
+
+  public ArticleResponse favorite(String slug, Member member) {
+    Article article = manager.favorite(slug, member);
+    ProfileMember profileMember = new ProfileMember(member);
+    return ArticleResponse
+        .of(article, toArray(article.getTags()), profileMember);
+  }
+
+  public ArticleResponse unFavorite(String slug, Member member) {
+    Article article = manager.unFavorite(slug, member);
+    ProfileMember profileMember = new ProfileMember(member);
+    return ArticleResponse
+        .of(article, toArray(article.getTags()), profileMember);
   }
 }

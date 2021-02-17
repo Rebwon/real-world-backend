@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.rebwon.realworldbackend.member.domain.Member;
+import com.rebwon.realworldbackend.member.domain.MemberNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -25,7 +26,7 @@ class ArticleTest {
     // Act & Assert
     assertThatThrownBy(
         () -> article.unFavorites(member)
-    ).isInstanceOf(IllegalStateException.class);
+    ).isInstanceOf(MemberNotFoundException.class);
   }
 
   @Test
@@ -34,14 +35,14 @@ class ArticleTest {
     article.favorites(member);
 
     // Assert
-    assertThat(article.verifyFavorites(member)).isTrue();
+    assertThat(article.favorited(member)).isTrue();
     assertThat(article.favoritesCount()).isEqualTo(1);
 
     // Act
     article.unFavorites(member);
 
     // Assert
-    assertThat(article.verifyFavorites(member)).isFalse();
+    assertThat(article.favorited(member)).isFalse();
     assertThat(article.favoritesCount()).isEqualTo(0);
   }
 
@@ -53,7 +54,7 @@ class ArticleTest {
     // Assert
     assertThatThrownBy(
         () -> article.favorites(member)
-    ).isInstanceOf(IllegalStateException.class);
+    ).isInstanceOf(AlreadyFavoritedException.class);
   }
 
   @Test
@@ -62,7 +63,7 @@ class ArticleTest {
     article.favorites(member);
 
     // Assert
-    assertThat(article.verifyFavorites(member)).isTrue();
+    assertThat(article.favorited(member)).isTrue();
     assertThat(article.favoritesCount()).isEqualTo(1);
   }
 

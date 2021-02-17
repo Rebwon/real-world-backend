@@ -115,7 +115,6 @@ class ArticleApiTest extends IntegrationTests {
 
     // Assert
     actions
-        .andDo(print())
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.article.title").value("spring boot"))
         .andExpect(jsonPath("$.article.slug").value("spring-boot"))
