@@ -16,8 +16,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @ExtendWith(MockitoExtension.class)
 class LoginTest {
-  @Mock private MemberRepository memberRepository;
-  @Mock private PasswordEncoder passwordEncoder;
+
+  @Mock
+  private MemberRepository memberRepository;
+  @Mock
+  private PasswordEncoder passwordEncoder;
   private Login login;
 
   @BeforeEach
@@ -38,7 +41,8 @@ class LoginTest {
     // Arrange
     BDDMockito.given(memberRepository.findByEmail(Mockito.anyString()))
         .willReturn(Optional.of(Member.register("rebwon@gmail.com", "rebwon", "password")));
-    BDDMockito.given(passwordEncoder.matches(Mockito.anyString(), Mockito.anyString())).willReturn(false);
+    BDDMockito.given(passwordEncoder.matches(Mockito.anyString(), Mockito.anyString()))
+        .willReturn(false);
 
     // Act & Assert
     assertThatThrownBy(
@@ -51,7 +55,8 @@ class LoginTest {
     // Arrange
     BDDMockito.given(memberRepository.findByEmail(Mockito.anyString()))
         .willReturn(Optional.of(Member.register("rebwon@gmail.com", "rebwon", "password")));
-    BDDMockito.given(passwordEncoder.matches(Mockito.anyString(), Mockito.anyString())).willReturn(true);
+    BDDMockito.given(passwordEncoder.matches(Mockito.anyString(), Mockito.anyString()))
+        .willReturn(true);
 
     // Act
     Member member = login.login("rebwon@gmail.com", "password");

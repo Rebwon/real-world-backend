@@ -9,6 +9,7 @@ import lombok.Getter;
 @Getter
 @JsonRootName("article")
 public class ArticleResponse {
+
   private final String slug;
   private final String title;
   private final String description;
@@ -38,7 +39,8 @@ public class ArticleResponse {
   public static ArticleResponse of(Article article, String[] tagList, ProfileResponse response) {
     return new ArticleResponse(article.getSlug().value(), article.getTitle(),
         article.getDescription(), article.getBody(), tagList, article.getChangeHistory()
-        .getCreatedAt(), article.getChangeHistory().getModifiedAt(), false, article.favoritesCount(),
+        .getCreatedAt(), article.getChangeHistory().getModifiedAt(), false,
+        article.favoritesCount(),
         response);
   }
 }

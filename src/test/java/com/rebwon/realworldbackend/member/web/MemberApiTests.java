@@ -17,6 +17,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 
 public class MemberApiTests extends IntegrationTests {
+
   private static final String REGISTER_API = "/api/users";
   private static final String LOGIN_API = "/api/users/login";
   private static final String USER_API = "/api/user";
@@ -87,7 +88,7 @@ public class MemberApiTests extends IntegrationTests {
   }
 
   @Test
-  void should_member_register_fail_duplicated_by_username() throws Exception{
+  void should_member_register_fail_duplicated_by_username() throws Exception {
     // Arrange
     RegisterRequest request = new RegisterRequest("rebwon", "rebwon@gmail.com", "password");
 
@@ -117,7 +118,7 @@ public class MemberApiTests extends IntegrationTests {
   }
 
   @Test
-  void should_member_register_success() throws Exception{
+  void should_member_register_success() throws Exception {
     // Arrange
     RegisterRequest request = new RegisterRequest("kitty", "kitty@gmail.com", "password");
 
@@ -135,7 +136,7 @@ public class MemberApiTests extends IntegrationTests {
   }
 
   @Test
-  void should_member_login_fail_member_not_found() throws Exception{
+  void should_member_login_fail_member_not_found() throws Exception {
     // Arrange
     LoginRequest request = new LoginRequest("kitty@gmail.com", "password");
 
@@ -150,7 +151,7 @@ public class MemberApiTests extends IntegrationTests {
   }
 
   @Test
-  void should_member_login_fail_password_not_matched() throws Exception{
+  void should_member_login_fail_password_not_matched() throws Exception {
     // Arrange
     LoginRequest request = new LoginRequest("rebwon@gmail.com", "wrongpass");
 
@@ -165,7 +166,7 @@ public class MemberApiTests extends IntegrationTests {
   }
 
   @Test
-  void should_member_login_success() throws Exception{
+  void should_member_login_success() throws Exception {
     // Arrange
     LoginRequest request = new LoginRequest("rebwon@gmail.com", "password");
 
@@ -196,9 +197,10 @@ public class MemberApiTests extends IntegrationTests {
   }
 
   @Test
-  void should_member_change_fail_duplicated_by_username() throws Exception{
+  void should_member_change_fail_duplicated_by_username() throws Exception {
     // Arrange
-    ProfileUpdateRequest request = new ProfileUpdateRequest("rebwon", "rebwon@gmail.com", "password", "", "");
+    ProfileUpdateRequest request = new ProfileUpdateRequest("rebwon", "rebwon@gmail.com",
+        "password", "", "");
 
     // Act
     final ResultActions actions = mockMvc.perform(put(USER_API)
@@ -214,7 +216,8 @@ public class MemberApiTests extends IntegrationTests {
   @Test
   void should_member_change_fail_duplicated_by_email() throws Exception {
     // Arrange
-    ProfileUpdateRequest request = new ProfileUpdateRequest("kitty", "rebwon@gmail.com", "password", "", "");
+    ProfileUpdateRequest request = new ProfileUpdateRequest("kitty", "rebwon@gmail.com", "password",
+        "", "");
 
     // Act
     final ResultActions actions = mockMvc.perform(put(USER_API)
@@ -230,7 +233,8 @@ public class MemberApiTests extends IntegrationTests {
   @Test
   void should_member_change_success() throws Exception {
     // Arrange
-    ProfileUpdateRequest request = new ProfileUpdateRequest("kitty", "kitty@gmail.com", "passwords", "sample", "sample");
+    ProfileUpdateRequest request = new ProfileUpdateRequest("kitty", "kitty@gmail.com", "passwords",
+        "sample", "sample");
 
     // Act
     final ResultActions actions = mockMvc.perform(put(USER_API)

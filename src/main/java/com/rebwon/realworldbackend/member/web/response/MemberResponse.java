@@ -7,6 +7,7 @@ import lombok.Getter;
 @Getter
 @JsonRootName("user")
 public class MemberResponse {
+
   private final String email;
   private final String token;
   private final String username;

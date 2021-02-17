@@ -21,7 +21,8 @@ public class ArticlePersistenceTest extends PersistenceExtension {
 
   @BeforeEach
   void setUp() {
-    Member author = memberRepository.save(Member.register("rebwon@gmail.com", "rebwon", "password"));
+    Member author = memberRepository
+        .save(Member.register("rebwon@gmail.com", "rebwon", "password"));
     articleRepository.save(Article.create("test title", "test desc", "test body", author));
   }
 
@@ -41,6 +42,7 @@ public class ArticlePersistenceTest extends PersistenceExtension {
     assertThat(article.getTitle()).isEqualTo("spring boot");
     assertThat(article.getSlug().value()).isEqualTo("spring-boot");
     assertThat(article.getDescription()).isEqualTo("spring desc");
-    assertThat(article.getChangeHistory().getCreatedAt()).isBefore(article.getChangeHistory().getModifiedAt());
+    assertThat(article.getChangeHistory().getCreatedAt())
+        .isBefore(article.getChangeHistory().getModifiedAt());
   }
 }

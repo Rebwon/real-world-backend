@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class ArticleApi {
+
   private final ArticleFacadeService facadeService;
 
   public ArticleApi(ArticleFacadeService facadeService) {

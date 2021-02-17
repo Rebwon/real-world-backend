@@ -26,11 +26,15 @@ import org.hibernate.annotations.DynamicUpdate;
         @NamedAttributeNode("follows")
     }
 )
-@Entity @DynamicUpdate @Getter
+@Entity
+@Getter
+@DynamicUpdate
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EqualsAndHashCode(of = {"id", "email"})
 public class Member {
-  @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
   @Column(nullable = false, unique = true)
   private String email;
@@ -49,7 +53,8 @@ public class Member {
   )
   private Set<Member> follows = new HashSet<>();
 
-  private Member(Long id, String email, String username, String password, String image, String bio) {
+  private Member(Long id, String email, String username, String password, String image,
+      String bio) {
     this.id = id;
     this.email = email;
     this.username = username;
@@ -63,7 +68,8 @@ public class Member {
     return new Member(null, email, username, password, "", "");
   }
 
-  public void changeProfile(String username, String email, String password, String bio, String image) {
+  public void changeProfile(String username, String email, String password, String bio,
+      String image) {
     this.username = username;
     this.email = email;
     this.password = password;
@@ -72,14 +78,14 @@ public class Member {
   }
 
   public void follow(Member target) {
-    if(followed(target)) {
+    if (followed(target)) {
       throw new ExistsMemberException();
     }
     this.follows.add(target);
   }
 
   public void unfollow(Member target) {
-    if(!followed(target)) {
+    if (!followed(target)) {
       throw new MemberNotFoundException();
     }
     this.follows.remove(target);

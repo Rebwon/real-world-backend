@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ArticleManager {
+
   private final ArticleRepository articleRepository;
   private final TagRepository tagRepository;
 
@@ -19,12 +20,13 @@ public class ArticleManager {
   }
 
   public Article create(Member member, CreateArticleCommand command) {
-    if(articleRepository.existsBySlug_Value(Slug.from(command.getTitle()).value())) {
+    if (articleRepository.existsBySlug_Value(Slug.from(command.getTitle()).value())) {
       throw new DuplicateSlugException();
     }
 
-    Article article = Article.create(command.getTitle(), command.getDescription(), command.getBody(), member);
-    for(String tagName : command.getTagList()) {
+    Article article = Article
+        .create(command.getTitle(), command.getDescription(), command.getBody(), member);
+    for (String tagName : command.getTagList()) {
       Tag tag = Optional.ofNullable(tagRepository.findByName(tagName))
           .orElseGet(() -> tagRepository.save(new Tag(tagName)));
       article.addTag(tag);
@@ -38,7 +40,7 @@ public class ArticleManager {
 
   public Article update(String slug, Member member, UpdateArticleCommand command) {
     Article article = findOne(slug);
-    if(!article.verifyAuthor(member)) {
+    if (!article.verifyAuthor(member)) {
       throw new WrongAuthorException(member.getUsername() + " wrong author");
     }
     article.modify(command.getTitle(), command.getDescription(), command.getBody());
@@ -47,7 +49,7 @@ public class ArticleManager {
 
   public void delete(String slug, Member member) {
     Article article = findOne(slug);
-    if(!article.verifyAuthor(member)) {
+    if (!article.verifyAuthor(member)) {
       throw new WrongAuthorException(member.getUsername() + " wrong author");
     }
     articleRepository.delete(article);

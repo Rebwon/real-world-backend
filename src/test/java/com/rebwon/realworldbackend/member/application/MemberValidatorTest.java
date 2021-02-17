@@ -13,7 +13,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
 public class MemberValidatorTest {
-  @Mock private MemberRepository memberRepository;
+
+  @Mock
+  private MemberRepository memberRepository;
   private MemberValidator validator;
 
   @BeforeEach

@@ -5,6 +5,7 @@ import lombok.Getter;
 
 @Getter
 public class ProfileMember {
+
   private final Member member;
   private final boolean following;
 

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class TokenFactory {
+
   @Value("${token.expiration}")
   private Integer expirationTime;
   @Value("${token.signKey}")

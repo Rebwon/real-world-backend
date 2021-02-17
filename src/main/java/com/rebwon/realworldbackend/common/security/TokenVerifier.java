@@ -12,6 +12,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 
 @Slf4j
 public class TokenVerifier {
+
   private final String signKey;
   private final String token;
 

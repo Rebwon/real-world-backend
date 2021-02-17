@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class MemberApi {
+
   private final MemberValidator memberValidator;
   private final MemberManager manager;
   private final TokenFactory tokenFactory;
@@ -35,10 +36,10 @@ public class MemberApi {
 
   @PostMapping("/api/users")
   public ResponseEntity<MemberResponse> register(@RequestBody @Valid RegisterRequest request) {
-    if(memberValidator.verifyUsername(request.getUsername())) {
+    if (memberValidator.verifyUsername(request.getUsername())) {
       throw new DuplicateUsernameException("duplicate username");
     }
-    if(memberValidator.verifyEmail(request.getEmail())) {
+    if (memberValidator.verifyEmail(request.getEmail())) {
       throw new DuplicateEmailException("duplicate email");
     }
 
@@ -68,10 +69,10 @@ public class MemberApi {
   public ResponseEntity<MemberResponse> change(@AuthenticationPrincipal Member member,
       @RequestBody @Valid ProfileUpdateRequest request,
       @RequestHeader("Authorization") String authorization) {
-    if(memberValidator.verifyUsername(request.getUsername())) {
+    if (memberValidator.verifyUsername(request.getUsername())) {
       throw new DuplicateUsernameException("duplicate username");
     }
-    if(memberValidator.verifyEmail(request.getEmail())) {
+    if (memberValidator.verifyEmail(request.getEmail())) {
       throw new DuplicateEmailException("duplicate email");
     }
 

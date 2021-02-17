@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 @Embeddable
 @NoArgsConstructor
 public class Slug {
+
   @Column(name = "slug", nullable = false, unique = true)
   private String value;
 

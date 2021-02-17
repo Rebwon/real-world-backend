@@ -15,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 
 class FollowApiTests extends IntegrationTests {
+
   private Member target;
 
   @BeforeEach
@@ -36,8 +37,8 @@ class FollowApiTests extends IntegrationTests {
 
     // Act
     final ResultActions actions = mockMvc.perform(post("/api/profiles/" + username + "/follow")
-            .contentType(MediaType.APPLICATION_JSON)
-            .header(AUTHORIZATION, setUpToken)
+        .contentType(MediaType.APPLICATION_JSON)
+        .header(AUTHORIZATION, setUpToken)
     );
 
     // Assert

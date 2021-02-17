@@ -13,6 +13,7 @@ import org.hibernate.validator.constraints.Length;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProfileUpdateRequest {
+
   @NotBlank(message = "can't be empty username")
   private String username;
   @Email(message = "should be an email")

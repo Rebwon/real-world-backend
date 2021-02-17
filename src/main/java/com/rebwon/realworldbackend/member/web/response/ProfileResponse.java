@@ -7,6 +7,7 @@ import lombok.Getter;
 @Getter
 @JsonRootName("profile")
 public class ProfileResponse {
+
   private final String username;
   private final String bio;
   private final String image;

@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 public class MemberManager implements Register, Login {
+
   private final MemberRepository memberRepository;
   private final PasswordEncoder passwordEncoder;
 
@@ -27,7 +28,7 @@ public class MemberManager implements Register, Login {
   @Override
   public Member login(String email, String password) {
     Member member = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
-    if(!passwordEncoder.matches(password, member.getPassword())) {
+    if (!passwordEncoder.matches(password, member.getPassword())) {
       throw new PasswordNotMatchedException();
     }
     return member;
@@ -35,7 +36,8 @@ public class MemberManager implements Register, Login {
 
   @Override
   public Member register(RegisterRequest request) {
-    Member member = Member.register(request.getEmail(), request.getUsername(), passwordEncoder.encode(request.getPassword()));
+    Member member = Member.register(request.getEmail(), request.getUsername(),
+        passwordEncoder.encode(request.getPassword()));
     return memberRepository.save(member);
   }
 
@@ -45,7 +47,8 @@ public class MemberManager implements Register, Login {
   }
 
   public Member changeProfile(Member member, ProfileUpdateRequest request) {
-    member.changeProfile(request.getUsername(), request.getEmail(), request.getPassword(), request.getBio(), request.getImage());
+    member.changeProfile(request.getUsername(), request.getEmail(), request.getPassword(),
+        request.getBio(), request.getImage());
     return memberRepository.save(member);
   }
 }

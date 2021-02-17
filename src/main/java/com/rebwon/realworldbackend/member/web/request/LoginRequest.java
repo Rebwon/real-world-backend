@@ -13,6 +13,7 @@ import org.hibernate.validator.constraints.Length;
 @AllArgsConstructor
 @NoArgsConstructor
 public class LoginRequest {
+
   @NotBlank(message = "can't be empty email")
   @Email(message = "should be an email")
   private String email;

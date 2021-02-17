@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class MemberValidator {
+
   private final MemberRepository memberRepository;
 
   public MemberValidator(MemberRepository memberRepository) {

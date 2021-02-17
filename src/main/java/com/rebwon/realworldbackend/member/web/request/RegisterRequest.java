@@ -9,9 +9,11 @@ import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
 @JsonRootName("user")
-@Data @AllArgsConstructor
+@Data
+@AllArgsConstructor
 @NoArgsConstructor
 public class RegisterRequest {
+
   @NotBlank(message = "can't be empty username")
   private String username;
   @NotBlank(message = "can't be empty email")

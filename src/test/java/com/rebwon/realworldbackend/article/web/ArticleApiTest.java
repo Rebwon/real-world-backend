@@ -83,7 +83,8 @@ class ArticleApiTest extends IntegrationTests {
   @Test
   void should_create_fail_duplicate_slug() throws Exception {
     // Arrange
-    CreateArticleRequest request = new CreateArticleRequest("test title", "desc", "body", Collections.emptyList());
+    CreateArticleRequest request = new CreateArticleRequest("test title", "desc", "body",
+        Collections.emptyList());
 
     // Act
     final ResultActions actions = mockMvc.perform(post("/api/articles")

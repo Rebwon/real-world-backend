@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CreateArticleRequest {
+
   @NotBlank(message = "can't empty title")
   private String title;
   @NotBlank(message = "can't empty description")

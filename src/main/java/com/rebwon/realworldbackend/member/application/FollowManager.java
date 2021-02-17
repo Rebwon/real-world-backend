@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @RequiredArgsConstructor
 public class FollowManager {
+
   private final MemberRepository memberRepository;
 
   public ProfileMember follow(Member member, String username) {
@@ -32,7 +33,7 @@ public class FollowManager {
   public ProfileMember find(Member member, String username) {
     Member target = memberRepository.findByUsername(username)
         .orElseThrow(MemberNotFoundException::new);
-    if(Optional.ofNullable(member).isEmpty()) {
+    if (Optional.ofNullable(member).isEmpty()) {
       return new ProfileMember(target);
     }
     return new ProfileMember(target, member.followed(target));

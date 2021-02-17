@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class FollowApi {
+
   private final FollowManager followManager;
 
   public FollowApi(FollowManager followManager) {

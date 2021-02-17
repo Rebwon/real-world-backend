@@ -21,11 +21,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
 
-@Entity @Getter @DynamicUpdate
+@Entity
+@Getter
+@DynamicUpdate
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EqualsAndHashCode(of = "id")
 public class Article {
-  @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
   @Column(nullable = false)
   private String title;
@@ -48,7 +52,8 @@ public class Article {
   )
   private Set<Member> favorites = new HashSet<>();
 
-  private Article(Long id, String title, Slug slug, String description, String body, Member author) {
+  private Article(Long id, String title, Slug slug, String description, String body,
+      Member author) {
     this.id = id;
     this.title = title;
     this.slug = slug;
@@ -78,14 +83,14 @@ public class Article {
   }
 
   public void favorites(Member target) {
-    if(verifyFavorites(target)) {
+    if (verifyFavorites(target)) {
       throw new IllegalStateException("already favorites this article");
     }
     this.favorites.add(target);
   }
 
   public void unFavorites(Member target) {
-    if(!verifyFavorites(target)) {
+    if (!verifyFavorites(target)) {
       throw new IllegalStateException("Could not found member");
     }
     this.favorites.remove(target);

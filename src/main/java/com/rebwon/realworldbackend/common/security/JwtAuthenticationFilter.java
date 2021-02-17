@@ -24,7 +24,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
   private final String signKey;
   private final MemberRepository memberRepository;
 
-  public JwtAuthenticationFilter(@Value("${token.signKey}") String signKey, MemberRepository memberRepository) {
+  public JwtAuthenticationFilter(@Value("${token.signKey}") String signKey,
+      MemberRepository memberRepository) {
     this.signKey = signKey;
     this.memberRepository = memberRepository;
   }
@@ -38,7 +39,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
       TokenVerifier tokenVerifier = new TokenVerifier(signKey, rawAccessToken);
       String subject = tokenVerifier.parseClaims().orElseThrow(TokenParseErrorException::new);
-      Member member = memberRepository.findByEmail(subject).orElseThrow(MemberNotFoundException::new);
+      Member member = memberRepository.findByEmail(subject)
+          .orElseThrow(MemberNotFoundException::new);
 
       if (SecurityContextHolder.getContext().getAuthentication() == null) {
         UsernamePasswordAuthenticationToken token =

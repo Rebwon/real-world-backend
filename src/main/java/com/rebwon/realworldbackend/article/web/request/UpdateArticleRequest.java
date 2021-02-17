@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UpdateArticleRequest {
+
   private String title = "";
   private String description = "";
   private String body = "";

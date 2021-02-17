@@ -7,8 +7,11 @@ import javax.persistence.PreUpdate;
 import lombok.Getter;
 import lombok.ToString;
 
-@Embeddable @ToString @Getter
+@Embeddable
+@ToString
+@Getter
 public class ChangeHistory {
+
   private LocalDateTime createdAt;
   private LocalDateTime modifiedAt;
 

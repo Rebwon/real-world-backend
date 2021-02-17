@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 public class ArticleFacadeService {
+
   private final ArticleManager manager;
 
   public ArticleFacadeService(ArticleManager manager) {
@@ -25,7 +26,8 @@ public class ArticleFacadeService {
   public ArticleResponse create(Member member, CreateArticleCommand command) {
     Article article = manager.create(member, command);
     ProfileMember profileMember = new ProfileMember(member);
-    return ArticleResponse.of(article, toArray(article.getTags()), ProfileResponse.of(profileMember));
+    return ArticleResponse
+        .of(article, toArray(article.getTags()), ProfileResponse.of(profileMember));
   }
 
   private String[] toArray(Set<Tag> tags) {
@@ -35,13 +37,15 @@ public class ArticleFacadeService {
   public ArticleResponse findOne(String slug) {
     Article article = manager.findOne(slug);
     ProfileMember profileMember = new ProfileMember(article.getAuthor());
-    return ArticleResponse.of(article, toArray(article.getTags()), ProfileResponse.of(profileMember));
+    return ArticleResponse
+        .of(article, toArray(article.getTags()), ProfileResponse.of(profileMember));
   }
 
   public ArticleResponse update(String slug, Member member, UpdateArticleCommand command) {
     Article article = manager.update(slug, member, command);
     ProfileMember profileMember = new ProfileMember(article.getAuthor());
-    return ArticleResponse.of(article, toArray(article.getTags()), ProfileResponse.of(profileMember));
+    return ArticleResponse
+        .of(article, toArray(article.getTags()), ProfileResponse.of(profileMember));
   }
 
   public void delete(String slug, Member member) {

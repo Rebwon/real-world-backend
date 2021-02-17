@@ -33,6 +33,7 @@ public class MemberPersistenceTest extends PersistenceExtension {
     assertThat(member.getEmail()).isEqualTo("rebwon@naver.com");
     assertThat(member.getBio()).isEqualTo("sample bio");
     assertThat(member.getImage()).isEqualTo("sample image");
-    assertThat(member.getChangeHistory().getCreatedAt()).isBefore(member.getChangeHistory().getModifiedAt());
+    assertThat(member.getChangeHistory().getCreatedAt())
+        .isBefore(member.getChangeHistory().getModifiedAt());
   }
 }

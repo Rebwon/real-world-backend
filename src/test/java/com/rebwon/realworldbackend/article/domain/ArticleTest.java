@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class ArticleTest {
+
   private Member author;
   private Member member;
   private Article article;

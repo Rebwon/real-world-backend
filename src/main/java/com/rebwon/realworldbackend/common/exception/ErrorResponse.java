@@ -10,6 +10,7 @@ import org.springframework.validation.FieldError;
 @Getter
 @JsonRootName("errors")
 public class ErrorResponse {
+
   private List<String> body;
 
   private ErrorResponse(List<String> body) {
@@ -18,7 +19,7 @@ public class ErrorResponse {
 
   public static ErrorResponse from(BindingResult bindingResult) {
     List<String> messages = new ArrayList<>();
-    for(FieldError error : bindingResult.getFieldErrors()) {
+    for (FieldError error : bindingResult.getFieldErrors()) {
       messages.add(error.getDefaultMessage());
     }
     return new ErrorResponse(messages);
