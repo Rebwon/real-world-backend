@@ -1,16 +1,14 @@
 package com.rebwon.realworldbackend.member.web;
 
 import com.rebwon.realworldbackend.common.security.TokenFactory;
-import com.rebwon.realworldbackend.member.domain.DuplicateEmailException;
-import com.rebwon.realworldbackend.member.domain.DuplicateUsernameException;
+import com.rebwon.realworldbackend.member.application.MemberFacadeService;
 import com.rebwon.realworldbackend.member.domain.Member;
-import com.rebwon.realworldbackend.member.application.MemberManager;
-import com.rebwon.realworldbackend.member.application.MemberValidator;
 import com.rebwon.realworldbackend.member.web.request.LoginRequest;
 import com.rebwon.realworldbackend.member.web.request.ProfileUpdateRequest;
 import com.rebwon.realworldbackend.member.web.request.RegisterRequest;
 import com.rebwon.realworldbackend.member.web.response.MemberResponse;
 import javax.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,35 +19,21 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequiredArgsConstructor
 public class MemberApi {
 
-  private final MemberValidator memberValidator;
-  private final MemberManager manager;
+  private final MemberFacadeService facadeService;
   private final TokenFactory tokenFactory;
-
-  public MemberApi(MemberValidator memberValidator,
-      MemberManager manager, TokenFactory tokenFactory) {
-    this.memberValidator = memberValidator;
-    this.manager = manager;
-    this.tokenFactory = tokenFactory;
-  }
 
   @PostMapping("/api/users")
   public ResponseEntity<MemberResponse> register(@RequestBody @Valid RegisterRequest request) {
-    if (memberValidator.verifyUsername(request.getUsername())) {
-      throw new DuplicateUsernameException("duplicate username");
-    }
-    if (memberValidator.verifyEmail(request.getEmail())) {
-      throw new DuplicateEmailException("duplicate email");
-    }
-
-    Member member = manager.register(request);
-    return ResponseEntity.ok(MemberResponse.of(member));
+    MemberResponse response = facadeService.register(request.toCommand());
+    return ResponseEntity.ok(response);
   }
 
   @PostMapping("/api/users/login")
   public ResponseEntity<MemberResponse> login(@RequestBody @Valid LoginRequest loginRequest) {
-    Member dbMember = manager.login(loginRequest.getEmail(), loginRequest.getPassword());
+    Member dbMember = facadeService.login(loginRequest.toCommand());
     String token = tokenFactory.create(dbMember);
     return ResponseEntity.ok(MemberResponse.of(dbMember, token));
   }
@@ -58,7 +42,7 @@ public class MemberApi {
   public ResponseEntity<MemberResponse> find(@AuthenticationPrincipal Member member,
       @RequestHeader("Authorization") String authorization) {
     return ResponseEntity.ok(
-        MemberResponse.of(manager.find(member), getToken(authorization)));
+        MemberResponse.of(facadeService.find(member), getToken(authorization)));
   }
 
   private String getToken(String authorization) {
@@ -69,14 +53,7 @@ public class MemberApi {
   public ResponseEntity<MemberResponse> change(@AuthenticationPrincipal Member member,
       @RequestBody @Valid ProfileUpdateRequest request,
       @RequestHeader("Authorization") String authorization) {
-    if (memberValidator.verifyUsername(request.getUsername())) {
-      throw new DuplicateUsernameException("duplicate username");
-    }
-    if (memberValidator.verifyEmail(request.getEmail())) {
-      throw new DuplicateEmailException("duplicate email");
-    }
-
-    Member dbMember = manager.changeProfile(member, request);
+    Member dbMember = facadeService.changeProfile(member, request.toCommand());
     return ResponseEntity.ok(MemberResponse.of(dbMember, getToken(authorization)));
   }
 }

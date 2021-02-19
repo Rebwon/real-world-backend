@@ -1,6 +1,7 @@
 package com.rebwon.realworldbackend.member.web.request;
 
 import com.fasterxml.jackson.annotation.JsonRootName;
+import com.rebwon.realworldbackend.member.application.command.ProfileUpdateCommand;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -24,4 +25,8 @@ public class ProfileUpdateRequest {
   private String password;
   private String bio;
   private String image;
+
+  public ProfileUpdateCommand toCommand() {
+    return new ProfileUpdateCommand(this.username, this.email, this.password, this.bio, this.image);
+  }
 }

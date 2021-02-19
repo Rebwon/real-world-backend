@@ -1,15 +1,11 @@
-package com.rebwon.realworldbackend.member.application;
+package com.rebwon.realworldbackend.member.domain;
 
-import com.rebwon.realworldbackend.member.domain.Member;
-import com.rebwon.realworldbackend.member.domain.MemberNotFoundException;
-import com.rebwon.realworldbackend.member.domain.MemberRepository;
+import com.rebwon.realworldbackend.member.application.ProfileMember;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.stereotype.Component;
 
-@Service
-@Transactional
+@Component
 @RequiredArgsConstructor
 public class FollowManager {
 
@@ -29,7 +25,6 @@ public class FollowManager {
     return new ProfileMember(target, member.followed(target));
   }
 
-  @Transactional(readOnly = true)
   public ProfileMember find(Member member, String username) {
     Member target = memberRepository.findByUsername(username)
         .orElseThrow(MemberNotFoundException::new);

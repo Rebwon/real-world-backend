@@ -16,22 +16,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedAttributeNode;
-import javax.persistence.NamedEntityGraph;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
 
-@NamedEntityGraph(
-    name = "article-all-fetch",
-    attributeNodes = {
-        @NamedAttributeNode("author"),
-        @NamedAttributeNode("tags"),
-        @NamedAttributeNode("favorites")
-    }
-)
 @Entity
 @Getter
 @DynamicUpdate

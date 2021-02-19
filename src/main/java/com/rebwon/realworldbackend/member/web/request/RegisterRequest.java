@@ -1,6 +1,7 @@
 package com.rebwon.realworldbackend.member.web.request;
 
 import com.fasterxml.jackson.annotation.JsonRootName;
+import com.rebwon.realworldbackend.member.application.command.RegisterCommand;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -22,4 +23,8 @@ public class RegisterRequest {
   @NotBlank(message = "can't be empty password")
   @Length(min = 8, max = 50)
   private String password;
+
+  public RegisterCommand toCommand() {
+    return new RegisterCommand(this.username, this.email, this.password);
+  }
 }
