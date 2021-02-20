@@ -27,8 +27,9 @@ public class MemberApi {
 
   @PostMapping("/api/users")
   public ResponseEntity<MemberResponse> register(@RequestBody @Valid RegisterRequest request) {
-    MemberResponse response = facadeService.register(request.toCommand());
-    return ResponseEntity.ok(response);
+    return ResponseEntity.ok(
+        MemberResponse.of(facadeService.register(request.toCommand()))
+    );
   }
 
   @PostMapping("/api/users/login")

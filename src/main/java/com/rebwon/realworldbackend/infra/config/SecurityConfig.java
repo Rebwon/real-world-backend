@@ -1,5 +1,6 @@
 package com.rebwon.realworldbackend.infra.config;
 
+import com.rebwon.realworldbackend.infra.security.CustomCorsFilter;
 import com.rebwon.realworldbackend.infra.security.JwtAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -42,6 +43,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .anyRequest().authenticated()
 
         .and()
+        .addFilterBefore(new CustomCorsFilter(), UsernamePasswordAuthenticationFilter.class)
         .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
   }
 }

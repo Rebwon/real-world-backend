@@ -15,12 +15,14 @@ public class TokenFactory {
   private Integer expirationTime;
   @Value("${token.signKey}")
   private String signKey;
+  @Value("${token.issuer}")
+  private String issuer;
 
   public String create(String email) {
     LocalDateTime currentTime = LocalDateTime.now();
     return Jwts.builder()
         .setSubject(email)
-        .setIssuer("rebwon")
+        .setIssuer(issuer)
         .setIssuedAt(Date.from(currentTime.atZone(ZoneId.systemDefault()).toInstant()))
         .setExpiration(Date.from(currentTime
             .plusMinutes(expirationTime)

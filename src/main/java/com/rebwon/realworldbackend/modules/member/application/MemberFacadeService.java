@@ -5,7 +5,6 @@ import com.rebwon.realworldbackend.modules.member.application.command.ProfileUpd
 import com.rebwon.realworldbackend.modules.member.application.command.RegisterCommand;
 import com.rebwon.realworldbackend.modules.member.domain.Member;
 import com.rebwon.realworldbackend.modules.member.domain.MemberManager;
-import com.rebwon.realworldbackend.modules.member.web.response.MemberResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,10 +19,9 @@ public class MemberFacadeService {
     return manager.login(command.getEmail(), command.getPassword());
   }
 
-  public MemberResponse register(RegisterCommand command) {
-    Member member = manager.register(command.getEmail(), command.getUsername(),
+  public Member register(RegisterCommand command) {
+    return manager.register(command.getEmail(), command.getUsername(),
         command.getPassword());
-    return MemberResponse.of(member);
   }
 
   public Member find(Member member) {
