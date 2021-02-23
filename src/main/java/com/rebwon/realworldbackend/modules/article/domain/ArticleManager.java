@@ -3,6 +3,7 @@ package com.rebwon.realworldbackend.modules.article.domain;
 import com.rebwon.realworldbackend.modules.article.application.command.CreateArticleCommand;
 import com.rebwon.realworldbackend.modules.article.application.command.UpdateArticleCommand;
 import com.rebwon.realworldbackend.modules.member.domain.Member;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Component;
 
@@ -10,12 +11,15 @@ import org.springframework.stereotype.Component;
 public class ArticleManager {
 
   private final ArticleRepository articleRepository;
+  private final ArticleQueryRepository queryRepository;
   private final TagRepository tagRepository;
 
   public ArticleManager(
       ArticleRepository articleRepository,
+      ArticleQueryRepository queryRepository,
       TagRepository tagRepository) {
     this.articleRepository = articleRepository;
+    this.queryRepository = queryRepository;
     this.tagRepository = tagRepository;
   }
 
@@ -36,6 +40,11 @@ public class ArticleManager {
 
   public Article findOne(String slug) {
     return articleRepository.findBySlug_Value(slug).orElseThrow(ArticleNotFoundException::new);
+  }
+
+  public List<Article> findAll(String tagName, String favorited, String author, int offset, int limit) {
+    List<Long> idList = queryRepository.findAll(tagName, favorited, author, offset, limit);
+    return queryRepository.findAllById(idList);
   }
 
   public Article update(String slug, Member member, UpdateArticleCommand command) {

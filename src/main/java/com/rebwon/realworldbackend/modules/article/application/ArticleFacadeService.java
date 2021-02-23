@@ -5,10 +5,13 @@ import com.rebwon.realworldbackend.modules.article.application.command.UpdateArt
 import com.rebwon.realworldbackend.modules.article.domain.Article;
 import com.rebwon.realworldbackend.modules.article.domain.ArticleManager;
 import com.rebwon.realworldbackend.modules.article.domain.Tag;
+import com.rebwon.realworldbackend.modules.article.web.response.ArticleListResponse;
 import com.rebwon.realworldbackend.modules.article.web.response.ArticleResponse;
 import com.rebwon.realworldbackend.modules.member.application.ProfileMember;
 import com.rebwon.realworldbackend.modules.member.domain.Member;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,6 +41,17 @@ public class ArticleFacadeService {
     ProfileMember profileMember = new ProfileMember(article.getAuthor());
     return ArticleResponse
         .of(article, toArray(article.getTags()), profileMember);
+  }
+
+  public ArticleListResponse findAll(String tag, String author, String favorited, int offset,
+      int limit) {
+    List<ArticleResponse> articleResponses = manager.findAll(tag, author, favorited, offset, limit)
+        .stream()
+        .map(article ->
+            ArticleResponse
+                .of(article, toArray(article.getTags()), new ProfileMember(article.getAuthor()))
+        ).collect(Collectors.toList());
+    return new ArticleListResponse(articleResponses, articleResponses.size());
   }
 
   public ArticleResponse update(String slug, Member member, UpdateArticleCommand command) {

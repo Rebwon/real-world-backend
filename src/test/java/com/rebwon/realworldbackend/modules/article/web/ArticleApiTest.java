@@ -11,6 +11,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.rebwon.realworldbackend.modules.IntegrationTests;
 import com.rebwon.realworldbackend.modules.article.domain.Article;
 import com.rebwon.realworldbackend.modules.article.domain.ArticleRepository;
+import com.rebwon.realworldbackend.modules.article.domain.Tag;
 import com.rebwon.realworldbackend.modules.article.domain.TagRepository;
 import com.rebwon.realworldbackend.modules.article.web.request.CreateArticleRequest;
 import com.rebwon.realworldbackend.modules.article.web.request.UpdateArticleRequest;
@@ -37,7 +38,10 @@ class ArticleApiTest extends IntegrationTests {
     super.setUp();
     Member member = memberRepository.save(Member.register("jason@gmail.com", "jason", "password"));
     articleRepository.save(Article.create("hibernate sam", "desc", "body", member));
-    articleRepository.save(Article.create("test title", "description", "body", setupMember));
+    Article article = Article.create("test title", "description", "body", setupMember);
+    article.addTag(tagRepository.save(new Tag("JPA")));
+    article.favorites(member);
+    articleRepository.save(article);
   }
 
   @AfterEach
@@ -139,6 +143,53 @@ class ArticleApiTest extends IntegrationTests {
 
     // Act
     final ResultActions actions = mockMvc.perform(get("/api/articles/" + slug)
+        .contentType(MediaType.APPLICATION_JSON)
+    );
+
+    // Assert
+    actions.andExpect(status().isOk());
+  }
+
+  @Test
+  void should_find_all_articles() throws Exception {
+    // Act
+    final ResultActions actions = mockMvc.perform(get("/api/articles")
+        .contentType(MediaType.APPLICATION_JSON)
+    );
+
+    // Assert
+    actions.andExpect(status().isOk());
+  }
+
+  @Test
+  void should_find_all_articles_conditional_on_author() throws Exception {
+    // Act
+    final ResultActions actions = mockMvc.perform(get("/api/articles")
+        .param("author", "rebwon")
+        .contentType(MediaType.APPLICATION_JSON)
+    );
+
+    // Assert
+    actions.andExpect(status().isOk());
+  }
+
+  @Test
+  void should_find_all_articles_conditional_on_favorited() throws Exception {
+    // Act
+    final ResultActions actions = mockMvc.perform(get("/api/articles")
+        .param("favorited", "jason")
+        .contentType(MediaType.APPLICATION_JSON)
+    );
+
+    // Assert
+    actions.andExpect(status().isOk());
+  }
+
+  @Test
+  void should_find_all_articles_conditional_on_tag() throws Exception {
+    // Act
+    final ResultActions actions = mockMvc.perform(get("/api/articles")
+        .param("tag", "jpa")
         .contentType(MediaType.APPLICATION_JSON)
     );
 
