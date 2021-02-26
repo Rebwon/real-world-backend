@@ -1,0 +1,17 @@
+version: "3.9"
+services:
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_DATABASE: realworld
+      MYSQL_ROOT_PASSWORD: pass
+      MYSQL_ROOT_HOST: '%'
+    ports:
+      - "3306:3306"
+
+  app:
+    image: msolo021015/real-world-backend
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
