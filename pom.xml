@@ -15,7 +15,6 @@
   <name>real-world-backend</name>
   <description>real-world-backend-app</description>
   <properties>
-    <finalName>msolo021015/real-world-backend</finalName>
     <java.version>11</java.version>
   </properties>
   <dependencies>

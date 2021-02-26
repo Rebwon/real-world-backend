@@ -21,9 +21,3 @@ jobs:
           restore-keys: ${{ runner.os }}-m2
       - name: Testing maven
         run: mvn clean test
-      - name: Publish to docker repository
-        uses: elgohr/Publish-Docker-Github-Action@master
-        with:
-          name: msolo021015/real-world-backend
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
