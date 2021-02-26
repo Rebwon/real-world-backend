@@ -13,7 +13,7 @@ services:
 
   real_world_backend_app:
     container_name: realworld_app
-    image: msolo021015/real-world-backend:0.0.1
+    image: msolo021015/real-world-backend:0.0.2
     ports:
       - 8080:8080
     depends_on:

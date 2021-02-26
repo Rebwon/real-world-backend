@@ -11,10 +11,11 @@
   </parent>
   <groupId>com.rebwon</groupId>
   <artifactId>real-world-backend</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0.0.2</version>
   <name>real-world-backend</name>
   <description>real-world-backend-app</description>
   <properties>
+    <finalName>msolo021015/real-world-backend</finalName>
     <java.version>11</java.version>
   </properties>
   <dependencies>
