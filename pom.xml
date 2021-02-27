@@ -11,7 +11,7 @@
   </parent>
   <groupId>com.rebwon</groupId>
   <artifactId>real-world-backend</artifactId>
-  <version>0.0.2</version>
+  <version>0.0.4</version>
   <name>real-world-backend</name>
   <description>real-world-backend-app</description>
   <properties>

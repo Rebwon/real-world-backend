@@ -31,9 +31,7 @@ public class ArticleQueryRepository {
 
   public List<Article> findAllById(List<Long> idList) {
     return queryFactory.selectFrom(article)
-        .leftJoin(article.tags, QTag.tag).fetchJoin()
-        .leftJoin(article.author, QMember.member).fetchJoin()
-        .leftJoin(article.favorites, QMember.member).fetchJoin()
+        .innerJoin(article.author, QMember.member).fetchJoin()
         .where(article.id.in(idList))
         .orderBy(article.changeHistory.createdAt.desc())
         .fetch();

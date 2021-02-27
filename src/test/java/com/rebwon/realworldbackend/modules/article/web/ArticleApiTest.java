@@ -158,7 +158,9 @@ class ArticleApiTest extends IntegrationTests {
     );
 
     // Assert
-    actions.andExpect(status().isOk());
+    actions
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.ArticleListResponse.articlesCount").value(2));
   }
 
   @Test
@@ -170,7 +172,9 @@ class ArticleApiTest extends IntegrationTests {
     );
 
     // Assert
-    actions.andExpect(status().isOk());
+    actions
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.ArticleListResponse.articlesCount").value(1));
   }
 
   @Test
@@ -182,7 +186,9 @@ class ArticleApiTest extends IntegrationTests {
     );
 
     // Assert
-    actions.andExpect(status().isOk());
+    actions
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.ArticleListResponse.articlesCount").value(1));;
   }
 
   @Test
