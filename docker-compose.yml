@@ -3,7 +3,6 @@ services:
   real_world_backend_db:
     container_name: realworld_db
     image: mysql:5.7
-    restart: always
     environment:
       MYSQL_DATABASE: realworld
       MYSQL_ROOT_PASSWORD: pass
@@ -12,6 +11,7 @@ services:
       - 3306:3306
 
   real_world_backend_app:
+    restart: on-failure
     container_name: realworld_app
     image: msolo021015/real-world-backend:0.0.2
     ports:

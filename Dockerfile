@@ -1,7 +1,7 @@
 FROM openjdk:11-jdk
 
-WORKDIR /workspace/app
 MAINTAINER msolo021015@gmail.com
+WORKDIR /workspace/app
 COPY mvnw .
 COPY .mvn .mvn
 COPY pom.xml .
