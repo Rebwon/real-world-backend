@@ -13,7 +13,7 @@ services:
   real_world_backend_app:
     restart: on-failure
     container_name: realworld_app
-    image: msolo021015/real-world-backend:0.0.2
+    image: msolo021015/real-world-backend:0.0.3
     ports:
       - 8080:8080
     depends_on:
