@@ -18,8 +18,14 @@ The secret key is stored in `application.properties.`
 
 ### Database
 
+spring profile dev using mysql5.7, test using embedded h2 database.
+
 ### Getting Started
 
 You need Java 11 installed.
 
 ### Run Tests
+
+```
+/mvn clean test
+```
