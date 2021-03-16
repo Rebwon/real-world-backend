@@ -83,6 +83,11 @@
       <artifactId>spring-security-test</artifactId>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>io.github.javaunit</groupId>
+      <artifactId>autoparams</artifactId>
+      <version>0.0.4</version>
+    </dependency>
   </dependencies>
 
   <build>

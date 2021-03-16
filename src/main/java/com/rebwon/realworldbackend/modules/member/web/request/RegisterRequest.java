@@ -11,8 +11,8 @@ import org.hibernate.validator.constraints.Length;
 
 @JsonRootName("user")
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class RegisterRequest {
 
   @NotBlank(message = "can't be empty username")
