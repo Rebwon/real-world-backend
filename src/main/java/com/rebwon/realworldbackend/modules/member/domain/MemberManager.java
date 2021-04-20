@@ -47,6 +47,6 @@ public class MemberManager implements Register, Login {
         }
         member.changeProfile(command.getUsername(), command.getEmail(), command.getPassword(),
             command.getBio(), command.getImage());
-        return memberRepository.save(member);
+        return memberRepository.saveAndFlush(member);
     }
 }

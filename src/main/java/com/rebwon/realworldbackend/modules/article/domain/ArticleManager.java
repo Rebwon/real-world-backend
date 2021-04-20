@@ -54,7 +54,7 @@ public class ArticleManager {
             throw new WrongAuthorException(member.getUsername() + " wrong author");
         }
         article.modify(command.getTitle(), command.getDescription(), command.getBody());
-        return article;
+        return articleRepository.saveAndFlush(article);
     }
 
     public void delete(String slug, Member member) {

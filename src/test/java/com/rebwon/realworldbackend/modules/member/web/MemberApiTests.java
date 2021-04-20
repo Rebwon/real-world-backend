@@ -1,5 +1,6 @@
 package com.rebwon.realworldbackend.modules.member.web;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -217,8 +218,7 @@ public class MemberApiTests extends IntegrationTests {
     void should_member_change_fail_duplicated_by_email() throws Exception {
         // Arrange
         ProfileUpdateRequest request = new ProfileUpdateRequest("kitty", "rebwon@gmail.com",
-            "password",
-            "", "");
+            "password", "", "");
 
         // Act
         final ResultActions actions = mockMvc.perform(put(USER_API)
@@ -235,8 +235,7 @@ public class MemberApiTests extends IntegrationTests {
     void should_member_change_success() throws Exception {
         // Arrange
         ProfileUpdateRequest request = new ProfileUpdateRequest("kitty", "kitty@gmail.com",
-            "passwords",
-            "sample", "sample");
+            "passwords", "sample", "sample");
 
         // Act
         final ResultActions actions = mockMvc.perform(put(USER_API)
@@ -252,5 +251,8 @@ public class MemberApiTests extends IntegrationTests {
             .andExpect(jsonPath("$.user.email").value("kitty@gmail.com"))
             .andExpect(jsonPath("$.user.bio").value("sample"))
             .andExpect(jsonPath("$.user.image").value("sample"));
+
+        assertThat(setupMember.getChangeHistory().getCreatedAt()).isBefore(
+            setupMember.getChangeHistory().getModifiedAt());
     }
 }

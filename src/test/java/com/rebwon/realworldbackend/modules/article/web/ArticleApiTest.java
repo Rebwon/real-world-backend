@@ -1,5 +1,6 @@
 package com.rebwon.realworldbackend.modules.article.web;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -33,13 +34,15 @@ class ArticleApiTest extends IntegrationTests {
     @Autowired
     private TagRepository tagRepository;
 
+    private Article article;
+
     @BeforeEach
     protected void setUp() {
         super.setUp();
         Member member = memberRepository
             .save(Member.register("jason@gmail.com", "jason", "password"));
         articleRepository.save(Article.create("hibernate sam", "desc", "body", member));
-        Article article = Article.create("test title", "description", "body", setupMember);
+        article = Article.create("test title", "description", "body", setupMember);
         article.addTag(tagRepository.save(new Tag("JPA")));
         article.favorites(member);
         articleRepository.save(article);
@@ -241,6 +244,9 @@ class ArticleApiTest extends IntegrationTests {
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.article.title").value("change article"))
             .andExpect(jsonPath("$.article.slug").value("change-article"));
+
+        assertThat(article.getChangeHistory().getCreatedAt()).isBefore(
+            article.getChangeHistory().getModifiedAt());
     }
 
     @Test

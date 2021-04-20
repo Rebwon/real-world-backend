@@ -1,8 +1,8 @@
 package com.rebwon.realworldbackend.modules.member.domain;
 
 import com.rebwon.realworldbackend.modules.common.domain.ChangeHistory;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -58,7 +58,7 @@ public class Member {
         joinColumns = @JoinColumn(name = "follower_id"),
         inverseJoinColumns = @JoinColumn(name = "following_id")
     )
-    private Set<Member> follows = new HashSet<>();
+    private List<Member> follows = new ArrayList<>();
 
     private Member(Long id, String email, String username, String password, String image,
         String bio) {
