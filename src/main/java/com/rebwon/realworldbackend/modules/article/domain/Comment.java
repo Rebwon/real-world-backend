@@ -20,30 +20,34 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(of = "id")
 public class Comment {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
-  @Column(nullable = false)
-  private String body;
-  @ManyToOne(fetch = FetchType.LAZY)
-  private Article article;
-  @ManyToOne(fetch = FetchType.LAZY)
-  private Member author;
-  private ChangeHistory changeHistory;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-  private Comment(Long id, String body, Article article, Member author) {
-    this.id = id;
-    this.body = body;
-    this.article = article;
-    this.author = author;
-    this.changeHistory = new ChangeHistory();
-  }
+    @Column(nullable = false)
+    private String body;
 
-  public static Comment write(String body, Article article, Member author) {
-    return new Comment(null, body, article, author);
-  }
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Article article;
 
-  public boolean verifyAuthor(Member member) {
-    return this.author.equals(member);
-  }
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Member author;
+
+    private ChangeHistory changeHistory;
+
+    private Comment(Long id, String body, Article article, Member author) {
+        this.id = id;
+        this.body = body;
+        this.article = article;
+        this.author = author;
+        this.changeHistory = new ChangeHistory();
+    }
+
+    public static Comment write(String body, Article article, Member author) {
+        return new Comment(null, body, article, author);
+    }
+
+    public boolean verifyAuthor(Member member) {
+        return this.author.equals(member);
+    }
 }

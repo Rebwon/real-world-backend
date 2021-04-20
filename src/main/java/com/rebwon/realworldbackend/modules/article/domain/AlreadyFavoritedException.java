@@ -4,7 +4,7 @@ import com.rebwon.realworldbackend.modules.common.exception.SystemException;
 
 public class AlreadyFavoritedException extends SystemException {
 
-  public AlreadyFavoritedException(String message) {
-    super(message);
-  }
+    public AlreadyFavoritedException(String message) {
+        super(message);
+    }
 }

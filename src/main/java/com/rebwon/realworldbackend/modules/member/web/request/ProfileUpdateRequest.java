@@ -15,18 +15,19 @@ import org.hibernate.validator.constraints.Length;
 @NoArgsConstructor
 public class ProfileUpdateRequest {
 
-  @NotBlank(message = "can't be empty username")
-  private String username;
-  @Email(message = "should be an email")
-  @NotBlank(message = "can't be empty email")
-  private String email;
-  @NotBlank(message = "can't be empty password")
-  @Length(min = 8, max = 50)
-  private String password;
-  private String bio;
-  private String image;
+    @NotBlank(message = "can't be empty username")
+    private String username;
+    @Email(message = "should be an email")
+    @NotBlank(message = "can't be empty email")
+    private String email;
+    @NotBlank(message = "can't be empty password")
+    @Length(min = 8, max = 50)
+    private String password;
+    private String bio;
+    private String image;
 
-  public ProfileUpdateCommand toCommand() {
-    return new ProfileUpdateCommand(this.username, this.email, this.password, this.bio, this.image);
-  }
+    public ProfileUpdateCommand toCommand() {
+        return new ProfileUpdateCommand(this.username, this.email, this.password, this.bio,
+            this.image);
+    }
 }

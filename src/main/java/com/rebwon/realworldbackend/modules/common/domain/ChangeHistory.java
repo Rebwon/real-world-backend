@@ -12,18 +12,18 @@ import lombok.ToString;
 @Getter
 public class ChangeHistory {
 
-  private LocalDateTime createdAt;
-  private LocalDateTime modifiedAt;
+    private LocalDateTime createdAt;
+    private LocalDateTime modifiedAt;
 
-  @PrePersist
-  void prePersist() {
-    this.createdAt = LocalDateTime.now();
-    this.modifiedAt = LocalDateTime.now();
-  }
+    @PrePersist
+    void prePersist() {
+        this.createdAt = LocalDateTime.now();
+        this.modifiedAt = LocalDateTime.now();
+    }
 
-  @PreUpdate
-  void preUpdate() {
-    this.modifiedAt = LocalDateTime.now();
-  }
+    @PreUpdate
+    void preUpdate() {
+        this.modifiedAt = LocalDateTime.now();
+    }
 
 }

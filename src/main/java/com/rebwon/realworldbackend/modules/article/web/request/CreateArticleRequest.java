@@ -15,17 +15,17 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CreateArticleRequest {
 
-  @NotBlank(message = "can't empty title")
-  private String title;
-  @NotBlank(message = "can't empty description")
-  private String description;
-  @NotBlank(message = "can't empty body")
-  private String body;
-  @Size(max = 3, message = "too many tags")
-  private List<String> tagList;
+    @NotBlank(message = "can't empty title")
+    private String title;
+    @NotBlank(message = "can't empty description")
+    private String description;
+    @NotBlank(message = "can't empty body")
+    private String body;
+    @Size(max = 3, message = "too many tags")
+    private List<String> tagList;
 
-  public CreateArticleCommand toCommand() {
-    return new CreateArticleCommand(this.title, this.description, this.body, this.tagList);
-  }
+    public CreateArticleCommand toCommand() {
+        return new CreateArticleCommand(this.title, this.description, this.body, this.tagList);
+    }
 }
 

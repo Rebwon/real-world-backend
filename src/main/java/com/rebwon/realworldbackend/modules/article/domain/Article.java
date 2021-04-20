@@ -29,83 +29,91 @@ import org.hibernate.annotations.DynamicUpdate;
 @EqualsAndHashCode(of = "id")
 public class Article {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
-  @Column(nullable = false)
-  private String title;
-  @Embedded
-  private Slug slug;
-  @Column(nullable = false)
-  private String description;
-  @Column(nullable = false)
-  private String body;
-  @Embedded
-  private ChangeHistory changeHistory;
-  @ManyToOne(fetch = FetchType.LAZY)
-  private Member author;
-  @ManyToMany
-  private Set<Tag> tags = new HashSet<>();
-  @ManyToMany
-  @JoinTable(name = "article_favorites",
-      joinColumns = @JoinColumn(name = "article_id"),
-      inverseJoinColumns = @JoinColumn(name = "member_id")
-  )
-  private Set<Member> favorites = new HashSet<>();
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-  private Article(Long id, String title, Slug slug, String description, String body,
-      Member author) {
-    this.id = id;
-    this.title = title;
-    this.slug = slug;
-    this.description = description;
-    this.body = body;
-    this.author = author;
-    this.changeHistory = new ChangeHistory();
-  }
+    @Column(nullable = false)
+    private String title;
 
-  public static Article create(String title, String description, String body, Member author) {
-    return new Article(null, title, Slug.from(title), description, body, author);
-  }
+    @Embedded
+    private Slug slug;
 
-  public void modify(String title, String description, String body) {
-    this.title = title;
-    this.slug = Slug.from(title);
-    this.description = description;
-    this.body = body;
-  }
+    @Column(nullable = false)
+    private String description;
 
-  public void addTag(Tag tag) {
-    this.tags.add(tag);
-  }
+    @Column(nullable = false)
+    private String body;
 
-  public void removeTag(Tag tag) {
-    this.tags.remove(tag);
-  }
+    @Embedded
+    private ChangeHistory changeHistory;
 
-  public void favorites(Member target) {
-    if (favorited(target)) {
-      throw new AlreadyFavoritedException("already favorites this article");
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Member author;
+
+    @ManyToMany
+    private Set<Tag> tags = new HashSet<>();
+
+    @ManyToMany
+    @JoinTable(name = "article_favorites",
+        joinColumns = @JoinColumn(name = "article_id"),
+        inverseJoinColumns = @JoinColumn(name = "member_id")
+    )
+    private Set<Member> favorites = new HashSet<>();
+
+    private Article(Long id, String title, Slug slug, String description, String body,
+        Member author) {
+        this.id = id;
+        this.title = title;
+        this.slug = slug;
+        this.description = description;
+        this.body = body;
+        this.author = author;
+        this.changeHistory = new ChangeHistory();
     }
-    this.favorites.add(target);
-  }
 
-  public void unFavorites(Member target) {
-    if (!favorited(target)) {
-      throw new MemberNotFoundException();
+    public static Article create(String title, String description, String body, Member author) {
+        return new Article(null, title, Slug.from(title), description, body, author);
     }
-    this.favorites.remove(target);
-  }
 
-  public boolean favorited(Member target) {
-    return this.favorites.contains(target);
-  }
+    public void modify(String title, String description, String body) {
+        this.title = title;
+        this.slug = Slug.from(title);
+        this.description = description;
+        this.body = body;
+    }
 
-  public boolean verifyAuthor(Member target) {
-    return this.author.equals(target);
-  }
+    public void addTag(Tag tag) {
+        this.tags.add(tag);
+    }
 
-  public int favoritesCount() {
-    return this.favorites.size();
-  }
+    public void removeTag(Tag tag) {
+        this.tags.remove(tag);
+    }
+
+    public void favorites(Member target) {
+        if (favorited(target)) {
+            throw new AlreadyFavoritedException("already favorites this article");
+        }
+        this.favorites.add(target);
+    }
+
+    public void unFavorites(Member target) {
+        if (!favorited(target)) {
+            throw new MemberNotFoundException();
+        }
+        this.favorites.remove(target);
+    }
+
+    public boolean favorited(Member target) {
+        return this.favorites.contains(target);
+    }
+
+    public boolean verifyAuthor(Member target) {
+        return this.author.equals(target);
+    }
+
+    public int favoritesCount() {
+        return this.favorites.size();
+    }
 }

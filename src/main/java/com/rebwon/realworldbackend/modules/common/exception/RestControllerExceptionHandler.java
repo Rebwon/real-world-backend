@@ -11,18 +11,18 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class RestControllerExceptionHandler {
 
-  @ExceptionHandler(value = MethodArgumentNotValidException.class)
-  public ResponseEntity<ErrorResponse> handleMethodArgumentNotValid(
-      MethodArgumentNotValidException ex) {
-    log.error("handleMethodArgumentNotValid", ex);
-    final ErrorResponse response = ErrorResponse.from(ex.getBindingResult());
-    return new ResponseEntity<>(response, HttpStatus.UNPROCESSABLE_ENTITY);
-  }
+    @ExceptionHandler(value = MethodArgumentNotValidException.class)
+    public ResponseEntity<ErrorResponse> handleMethodArgumentNotValid(
+        MethodArgumentNotValidException ex) {
+        log.error("handleMethodArgumentNotValid", ex);
+        final ErrorResponse response = ErrorResponse.from(ex.getBindingResult());
+        return new ResponseEntity<>(response, HttpStatus.UNPROCESSABLE_ENTITY);
+    }
 
-  @ExceptionHandler(SystemException.class)
-  protected ResponseEntity<ErrorResponse> handleBusinessException(SystemException e) {
-    log.error("SystemException", e);
-    final ErrorResponse errorResponse = ErrorResponse.from(e.getMessage());
-    return new ResponseEntity<>(errorResponse, HttpStatus.UNPROCESSABLE_ENTITY);
-  }
+    @ExceptionHandler(SystemException.class)
+    protected ResponseEntity<ErrorResponse> handleBusinessException(SystemException e) {
+        log.error("SystemException", e);
+        final ErrorResponse errorResponse = ErrorResponse.from(e.getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.UNPROCESSABLE_ENTITY);
+    }
 }

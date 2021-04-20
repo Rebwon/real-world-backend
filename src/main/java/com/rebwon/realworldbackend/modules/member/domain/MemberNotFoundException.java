@@ -4,7 +4,7 @@ import com.rebwon.realworldbackend.modules.common.exception.SystemException;
 
 public class MemberNotFoundException extends SystemException {
 
-  public MemberNotFoundException() {
-    super("member not found");
-  }
+    public MemberNotFoundException() {
+        super("member not found");
+    }
 }

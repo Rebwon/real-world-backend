@@ -19,6 +19,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.util.Assert;
 
 @NamedEntityGraph(
     name = "member-with-follows",
@@ -33,69 +34,75 @@ import org.hibernate.annotations.DynamicUpdate;
 @EqualsAndHashCode(of = {"id", "email"})
 public class Member {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
-  @Column(nullable = false, unique = true)
-  private String email;
-  @Column(nullable = false, unique = true)
-  private String username;
-  @Column(nullable = false)
-  private String password;
-  @Embedded
-  private ChangeHistory changeHistory;
-  private String image;
-  private String bio;
-  @ManyToMany
-  @JoinTable(name = "member_follows",
-      joinColumns = @JoinColumn(name = "follower_id"),
-      inverseJoinColumns = @JoinColumn(name = "following_id")
-  )
-  private Set<Member> follows = new HashSet<>();
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-  private Member(Long id, String email, String username, String password, String image,
-      String bio) {
-    this.id = id;
-    this.email = email;
-    this.username = username;
-    this.password = password;
-    this.image = image;
-    this.bio = bio;
-    this.changeHistory = new ChangeHistory();
-  }
+    @Column(nullable = false, unique = true)
+    private String email;
 
-  public static Member register(String email, String username, String password) {
-    return new Member(null, email, username, password, "", "");
-  }
+    @Column(nullable = false, unique = true)
+    private String username;
 
-  public void changeProfile(String username, String email, String password, String bio,
-      String image) {
-    this.username = username;
-    this.email = email;
-    this.password = password;
-    this.image = image;
-    this.bio = bio;
-  }
+    @Column(nullable = false)
+    private String password;
 
-  public void follow(Member target) {
-    if (followed(target)) {
-      throw new ExistsMemberException();
+    @Embedded
+    private ChangeHistory changeHistory;
+
+    private String image;
+    private String bio;
+
+    @ManyToMany
+    @JoinTable(name = "member_follows",
+        joinColumns = @JoinColumn(name = "follower_id"),
+        inverseJoinColumns = @JoinColumn(name = "following_id")
+    )
+    private Set<Member> follows = new HashSet<>();
+
+    private Member(Long id, String email, String username, String password, String image,
+        String bio) {
+        this.id = id;
+        this.email = email;
+        this.username = username;
+        this.password = password;
+        this.image = image;
+        this.bio = bio;
+        this.changeHistory = new ChangeHistory();
     }
-    this.follows.add(target);
-  }
 
-  public void unfollow(Member target) {
-    if (!followed(target)) {
-      throw new MemberNotFoundException();
+    public static Member register(String email, String username, String password) {
+        return new Member(null, email, username, password, "", "");
     }
-    this.follows.remove(target);
-  }
 
-  public boolean followed(Member target) {
-    return this.follows.contains(target);
-  }
+    public void changeProfile(String username, String email, String password, String bio,
+        String image) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.image = image;
+        this.bio = bio;
+    }
 
-  public int followCount() {
-    return this.follows.size();
-  }
+    public void follow(Member target) {
+        if (followed(target)) {
+            throw new ExistsMemberException();
+        }
+        this.follows.add(target);
+    }
+
+    public void unfollow(Member target) {
+        if (!followed(target)) {
+            throw new MemberNotFoundException();
+        }
+        this.follows.remove(target);
+    }
+
+    public boolean followed(Member target) {
+        return this.follows.contains(target);
+    }
+
+    public int followCount() {
+        return this.follows.size();
+    }
 }

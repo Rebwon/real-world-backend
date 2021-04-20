@@ -9,28 +9,28 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class FollowManager {
 
-  private final MemberRepository memberRepository;
+    private final MemberRepository memberRepository;
 
-  public ProfileMember follow(Member member, String username) {
-    Member target = memberRepository.findByUsername(username)
-        .orElseThrow(MemberNotFoundException::new);
-    member.follow(target);
-    return new ProfileMember(target, member.followed(target));
-  }
-
-  public ProfileMember unfollow(Member member, String username) {
-    Member target = memberRepository.findByUsername(username)
-        .orElseThrow(MemberNotFoundException::new);
-    member.unfollow(target);
-    return new ProfileMember(target, member.followed(target));
-  }
-
-  public ProfileMember find(Member member, String username) {
-    Member target = memberRepository.findByUsername(username)
-        .orElseThrow(MemberNotFoundException::new);
-    if (Optional.ofNullable(member).isEmpty()) {
-      return new ProfileMember(target);
+    public ProfileMember follow(Member member, String username) {
+        Member target = memberRepository.findByUsername(username)
+            .orElseThrow(MemberNotFoundException::new);
+        member.follow(target);
+        return new ProfileMember(target, member.followed(target));
     }
-    return new ProfileMember(target, member.followed(target));
-  }
+
+    public ProfileMember unfollow(Member member, String username) {
+        Member target = memberRepository.findByUsername(username)
+            .orElseThrow(MemberNotFoundException::new);
+        member.unfollow(target);
+        return new ProfileMember(target, member.followed(target));
+    }
+
+    public ProfileMember find(Member member, String username) {
+        Member target = memberRepository.findByUsername(username)
+            .orElseThrow(MemberNotFoundException::new);
+        if (Optional.ofNullable(member).isEmpty()) {
+            return new ProfileMember(target);
+        }
+        return new ProfileMember(target, member.followed(target));
+    }
 }

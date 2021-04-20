@@ -4,7 +4,7 @@ import com.rebwon.realworldbackend.modules.common.exception.SystemException;
 
 public class DuplicateUsernameException extends SystemException {
 
-  public DuplicateUsernameException(String message) {
-    super(message);
-  }
+    public DuplicateUsernameException(String message) {
+        super(message);
+    }
 }

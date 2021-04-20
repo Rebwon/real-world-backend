@@ -17,26 +17,26 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class FollowApi {
 
-  private final FollowFacadeService facadeService;
+    private final FollowFacadeService facadeService;
 
-  @PostMapping("/api/profiles/{username}/follow")
-  public ResponseEntity<ProfileResponse> following(@AuthenticationPrincipal Member member,
-      @PathVariable String username) {
-    ProfileMember profileMember = facadeService.follow(member, username);
-    return ResponseEntity.ok(ProfileResponse.of(profileMember));
-  }
+    @PostMapping("/api/profiles/{username}/follow")
+    public ResponseEntity<ProfileResponse> following(@AuthenticationPrincipal Member member,
+        @PathVariable String username) {
+        ProfileMember profileMember = facadeService.follow(member, username);
+        return ResponseEntity.ok(ProfileResponse.of(profileMember));
+    }
 
-  @DeleteMapping("/api/profiles/{username}/follow")
-  public ResponseEntity<ProfileResponse> unFollow(@AuthenticationPrincipal Member member,
-      @PathVariable String username) {
-    ProfileMember profileMember = facadeService.unfollow(member, username);
-    return ResponseEntity.ok(ProfileResponse.of(profileMember));
-  }
+    @DeleteMapping("/api/profiles/{username}/follow")
+    public ResponseEntity<ProfileResponse> unFollow(@AuthenticationPrincipal Member member,
+        @PathVariable String username) {
+        ProfileMember profileMember = facadeService.unfollow(member, username);
+        return ResponseEntity.ok(ProfileResponse.of(profileMember));
+    }
 
-  @GetMapping("/api/profiles/{username}")
-  public ResponseEntity<ProfileResponse> find(@AuthenticationPrincipal Member member,
-      @PathVariable String username) {
-    ProfileMember profileMember = facadeService.find(member, username);
-    return ResponseEntity.ok(ProfileResponse.of(profileMember));
-  }
+    @GetMapping("/api/profiles/{username}")
+    public ResponseEntity<ProfileResponse> find(@AuthenticationPrincipal Member member,
+        @PathVariable String username) {
+        ProfileMember profileMember = facadeService.find(member, username);
+        return ResponseEntity.ok(ProfileResponse.of(profileMember));
+    }
 }

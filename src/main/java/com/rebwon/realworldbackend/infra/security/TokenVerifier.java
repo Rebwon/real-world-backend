@@ -13,24 +13,24 @@ import org.springframework.security.authentication.BadCredentialsException;
 @Slf4j
 public class TokenVerifier {
 
-  private final String signKey;
-  private final String token;
+    private final String signKey;
+    private final String token;
 
-  public TokenVerifier(String signKey, String token) {
-    this.signKey = signKey;
-    this.token = token;
-  }
-
-  public Optional<String> parseClaims() {
-    try {
-      Jws<Claims> claims = Jwts.parser().setSigningKey(signKey).parseClaimsJws(token);
-      return Optional.of(claims.getBody().getSubject());
-    } catch (UnsupportedJwtException | MalformedJwtException | IllegalArgumentException ex) {
-      log.error("Invalid JWT Token", ex);
-      throw new BadCredentialsException("Invalid JWT token: ", ex);
-    } catch (ExpiredJwtException expiredEx) {
-      log.info("JWT Token is expired", expiredEx);
-      throw new TokenExpiredException();
+    public TokenVerifier(String signKey, String token) {
+        this.signKey = signKey;
+        this.token = token;
     }
-  }
+
+    public Optional<String> parseClaims() {
+        try {
+            Jws<Claims> claims = Jwts.parser().setSigningKey(signKey).parseClaimsJws(token);
+            return Optional.of(claims.getBody().getSubject());
+        } catch (UnsupportedJwtException | MalformedJwtException | IllegalArgumentException ex) {
+            log.error("Invalid JWT Token", ex);
+            throw new BadCredentialsException("Invalid JWT token: ", ex);
+        } catch (ExpiredJwtException expiredEx) {
+            log.info("JWT Token is expired", expiredEx);
+            throw new TokenExpiredException();
+        }
+    }
 }

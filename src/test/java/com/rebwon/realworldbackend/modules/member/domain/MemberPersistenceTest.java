@@ -11,29 +11,30 @@ import org.springframework.test.annotation.Rollback;
 
 public class MemberPersistenceTest extends PersistenceExtension {
 
-  @Autowired
-  private MemberRepository memberRepository;
+    @Autowired
+    private MemberRepository memberRepository;
 
-  @BeforeEach
-  void setUp() {
-    memberRepository.save(Member.register("rebwon@gmail.com", "rebwon", "password"));
-  }
+    @BeforeEach
+    void setUp() {
+        memberRepository.save(Member.register("rebwon@gmail.com", "rebwon", "password"));
+    }
 
-  @AfterEach
-  void tearDown() {
-    memberRepository.deleteAll();
-  }
+    @AfterEach
+    void tearDown() {
+        memberRepository.deleteAll();
+    }
 
-  @Test
-  @Rollback(value = false)
-  void should_member_change_profile_success() {
-    Member member = memberRepository.findByUsername("rebwon").get();
-    member.changeProfile("rebwon12", "rebwon@naver.com", "password1", "sample bio", "sample image");
+    @Test
+    @Rollback(value = false)
+    void should_member_change_profile_success() {
+        Member member = memberRepository.findByUsername("rebwon").get();
+        member.changeProfile("rebwon12", "rebwon@naver.com", "password1", "sample bio",
+            "sample image");
 
-    assertThat(member.getEmail()).isEqualTo("rebwon@naver.com");
-    assertThat(member.getBio()).isEqualTo("sample bio");
-    assertThat(member.getImage()).isEqualTo("sample image");
-    assertThat(member.getChangeHistory().getCreatedAt())
-        .isBefore(member.getChangeHistory().getModifiedAt());
-  }
+        assertThat(member.getEmail()).isEqualTo("rebwon@naver.com");
+        assertThat(member.getBio()).isEqualTo("sample bio");
+        assertThat(member.getImage()).isEqualTo("sample image");
+        assertThat(member.getChangeHistory().getCreatedAt())
+            .isBefore(member.getChangeHistory().getModifiedAt());
+    }
 }

@@ -19,63 +19,64 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class ArticleFacadeService {
 
-  private final ArticleManager manager;
+    private final ArticleManager manager;
 
-  public ArticleFacadeService(ArticleManager manager) {
-    this.manager = manager;
-  }
+    public ArticleFacadeService(ArticleManager manager) {
+        this.manager = manager;
+    }
 
-  public ArticleResponse create(Member member, CreateArticleCommand command) {
-    Article article = manager.create(member, command);
-    ProfileMember profileMember = new ProfileMember(member);
-    return ArticleResponse
-        .of(article, toArray(article.getTags()), profileMember);
-  }
+    public ArticleResponse create(Member member, CreateArticleCommand command) {
+        Article article = manager.create(member, command);
+        ProfileMember profileMember = new ProfileMember(member);
+        return ArticleResponse
+            .of(article, toArray(article.getTags()), profileMember);
+    }
 
-  private String[] toArray(Set<Tag> tags) {
-    return tags.stream().map(Tag::getName).toArray(String[]::new);
-  }
+    private String[] toArray(Set<Tag> tags) {
+        return tags.stream().map(Tag::getName).toArray(String[]::new);
+    }
 
-  public ArticleResponse findOne(String slug) {
-    Article article = manager.findOne(slug);
-    ProfileMember profileMember = new ProfileMember(article.getAuthor());
-    return ArticleResponse
-        .of(article, toArray(article.getTags()), profileMember);
-  }
+    public ArticleResponse findOne(String slug) {
+        Article article = manager.findOne(slug);
+        ProfileMember profileMember = new ProfileMember(article.getAuthor());
+        return ArticleResponse
+            .of(article, toArray(article.getTags()), profileMember);
+    }
 
-  public ArticleListResponse findAll(String tag, String author, String favorited, int offset,
-      int limit) {
-    List<ArticleResponse> articleResponses = manager.findAll(tag, author, favorited, offset, limit)
-        .stream()
-        .map(article ->
-            ArticleResponse
-                .of(article, toArray(article.getTags()), new ProfileMember(article.getAuthor()))
-        ).collect(Collectors.toList());
-    return new ArticleListResponse(articleResponses, articleResponses.size());
-  }
+    public ArticleListResponse findAll(String tag, String author, String favorited, int offset,
+        int limit) {
+        List<ArticleResponse> articleResponses = manager
+            .findAll(tag, author, favorited, offset, limit)
+            .stream()
+            .map(article ->
+                ArticleResponse
+                    .of(article, toArray(article.getTags()), new ProfileMember(article.getAuthor()))
+            ).collect(Collectors.toList());
+        return new ArticleListResponse(articleResponses, articleResponses.size());
+    }
 
-  public ArticleResponse update(String slug, Member member, UpdateArticleCommand command) {
-    Article article = manager.update(slug, member, command);
-    ProfileMember profileMember = new ProfileMember(article.getAuthor());
-    return ArticleResponse
-        .of(article, toArray(article.getTags()), profileMember);
-  }
+    public ArticleResponse update(String slug, Member member, UpdateArticleCommand command) {
+        Article article = manager.update(slug, member, command);
+        ProfileMember profileMember = new ProfileMember(article.getAuthor());
+        return ArticleResponse
+            .of(article, toArray(article.getTags()), profileMember);
+    }
 
-  public void delete(String slug, Member member) {
-    manager.delete(slug, member);
-  }
+    public void delete(String slug, Member member) {
+        manager.delete(slug, member);
+    }
 
-  public ArticleResponse favorite(String slug, Member member) {
-    Article article = manager.favorite(slug, member);
-    ProfileMember profileMember = new ProfileMember(member);
-    return ArticleResponse
-        .of(article, toArray(article.getTags()), profileMember);
-  }
+    public ArticleResponse favorite(String slug, Member member) {
+        Article article = manager.favorite(slug, member);
+        ProfileMember profileMember = new ProfileMember(member);
+        return ArticleResponse
+            .of(article, toArray(article.getTags()), profileMember);
+    }
 
-  public ArticleResponse unFavorite(String slug, Member member) {
-    Article article = manager.unFavorite(slug, member);
-    ProfileMember profileMember = new ProfileMember(member);
-    return ArticleResponse
-        .of(article, toArray(article.getTags()), profileMember);
-  }
+    public ArticleResponse unFavorite(String slug, Member member) {
+        Article article = manager.unFavorite(slug, member);
+        ProfileMember profileMember = new ProfileMember(member);
+        return ArticleResponse
+            .of(article, toArray(article.getTags()), profileMember);
+    }
 }

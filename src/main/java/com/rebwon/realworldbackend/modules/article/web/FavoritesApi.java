@@ -12,24 +12,25 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class FavoritesApi {
-  private final ArticleFacadeService facadeService;
 
-  public FavoritesApi(
-      ArticleFacadeService facadeService) {
-    this.facadeService = facadeService;
-  }
+    private final ArticleFacadeService facadeService;
 
-  @PostMapping("/api/articles/{slug}/favorite")
-  public ResponseEntity<ArticleResponse> favoriteArticle(@PathVariable String slug,
-      @AuthenticationPrincipal Member member) {
-    ArticleResponse response = facadeService.favorite(slug, member);
-    return ResponseEntity.ok(response);
-  }
+    public FavoritesApi(
+        ArticleFacadeService facadeService) {
+        this.facadeService = facadeService;
+    }
 
-  @DeleteMapping("/api/articles/{slug}/favorite")
-  public ResponseEntity<ArticleResponse> unFavoriteArticle(@PathVariable String slug,
-      @AuthenticationPrincipal Member member) {
-    ArticleResponse response = facadeService.unFavorite(slug, member);
-    return ResponseEntity.ok(response);
-  }
+    @PostMapping("/api/articles/{slug}/favorite")
+    public ResponseEntity<ArticleResponse> favoriteArticle(@PathVariable String slug,
+        @AuthenticationPrincipal Member member) {
+        ArticleResponse response = facadeService.favorite(slug, member);
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/api/articles/{slug}/favorite")
+    public ResponseEntity<ArticleResponse> unFavoriteArticle(@PathVariable String slug,
+        @AuthenticationPrincipal Member member) {
+        ArticleResponse response = facadeService.unFavorite(slug, member);
+        return ResponseEntity.ok(response);
+    }
 }

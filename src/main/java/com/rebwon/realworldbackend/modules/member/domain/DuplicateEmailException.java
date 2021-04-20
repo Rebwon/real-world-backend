@@ -4,7 +4,7 @@ import com.rebwon.realworldbackend.modules.common.exception.SystemException;
 
 public class DuplicateEmailException extends SystemException {
 
-  public DuplicateEmailException(String message) {
-    super(message);
-  }
+    public DuplicateEmailException(String message) {
+        super(message);
+    }
 }

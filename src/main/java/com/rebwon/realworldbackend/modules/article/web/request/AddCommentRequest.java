@@ -13,10 +13,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class AddCommentRequest {
 
-  @NotBlank(message = "can't empty body")
-  private String body;
+    @NotBlank(message = "can't empty body")
+    private String body;
 
-  public AddCommentCommand toCommand() {
-    return new AddCommentCommand(this.body);
-  }
+    public AddCommentCommand toCommand() {
+        return new AddCommentCommand(this.body);
+    }
 }

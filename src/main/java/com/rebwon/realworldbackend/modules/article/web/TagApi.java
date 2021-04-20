@@ -11,18 +11,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class TagApi {
 
-  private final TagRepository tagRepository;
+    private final TagRepository tagRepository;
 
-  public TagApi(TagRepository tagRepository) {
-    this.tagRepository = tagRepository;
-  }
+    public TagApi(TagRepository tagRepository) {
+        this.tagRepository = tagRepository;
+    }
 
-  @GetMapping("/api/tags")
-  public ResponseEntity<List<String>> findAll() {
-    return ResponseEntity.ok(
-        tagRepository.findAll()
-            .stream()
-            .map(Tag::getName)
-            .collect(Collectors.toList()));
-  }
+    @GetMapping("/api/tags")
+    public ResponseEntity<List<String>> findAll() {
+        return ResponseEntity.ok(
+            tagRepository.findAll()
+                .stream()
+                .map(Tag::getName)
+                .collect(Collectors.toList()));
+    }
 }

@@ -11,23 +11,23 @@ import org.springframework.stereotype.Component;
 @Component
 public class TokenFactory {
 
-  @Value("${token.expiration}")
-  private Integer expirationTime;
-  @Value("${token.signKey}")
-  private String signKey;
-  @Value("${token.issuer}")
-  private String issuer;
+    @Value("${token.expiration}")
+    private Integer expirationTime;
+    @Value("${token.signKey}")
+    private String signKey;
+    @Value("${token.issuer}")
+    private String issuer;
 
-  public String create(String email) {
-    LocalDateTime currentTime = LocalDateTime.now();
-    return Jwts.builder()
-        .setSubject(email)
-        .setIssuer(issuer)
-        .setIssuedAt(Date.from(currentTime.atZone(ZoneId.systemDefault()).toInstant()))
-        .setExpiration(Date.from(currentTime
-            .plusMinutes(expirationTime)
-            .atZone(ZoneId.systemDefault()).toInstant()))
-        .signWith(SignatureAlgorithm.HS512, signKey)
-        .compact();
-  }
+    public String create(String email) {
+        LocalDateTime currentTime = LocalDateTime.now();
+        return Jwts.builder()
+            .setSubject(email)
+            .setIssuer(issuer)
+            .setIssuedAt(Date.from(currentTime.atZone(ZoneId.systemDefault()).toInstant()))
+            .setExpiration(Date.from(currentTime
+                .plusMinutes(expirationTime)
+                .atZone(ZoneId.systemDefault()).toInstant()))
+            .signWith(SignatureAlgorithm.HS512, signKey)
+            .compact();
+    }
 }

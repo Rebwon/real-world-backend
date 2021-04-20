@@ -11,21 +11,21 @@ import org.springframework.validation.FieldError;
 @JsonRootName("errors")
 public class ErrorResponse {
 
-  private List<String> body;
+    private List<String> body;
 
-  private ErrorResponse(List<String> body) {
-    this.body = body;
-  }
-
-  public static ErrorResponse from(BindingResult bindingResult) {
-    List<String> messages = new ArrayList<>();
-    for (FieldError error : bindingResult.getFieldErrors()) {
-      messages.add(error.getDefaultMessage());
+    private ErrorResponse(List<String> body) {
+        this.body = body;
     }
-    return new ErrorResponse(messages);
-  }
 
-  public static ErrorResponse from(String message) {
-    return new ErrorResponse(List.of(message));
-  }
+    public static ErrorResponse from(BindingResult bindingResult) {
+        List<String> messages = new ArrayList<>();
+        for (FieldError error : bindingResult.getFieldErrors()) {
+            messages.add(error.getDefaultMessage());
+        }
+        return new ErrorResponse(messages);
+    }
+
+    public static ErrorResponse from(String message) {
+        return new ErrorResponse(List.of(message));
+    }
 }

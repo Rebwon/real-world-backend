@@ -9,7 +9,7 @@ import com.tngtech.archunit.lang.ArchRule;
 @AnalyzeClasses(packagesOf = RealWorldBackendApplication.class)
 public class CircularDependencyTest {
 
-  @ArchTest
-  ArchRule cycleCheck = slices().matching("com.rebwon.realworldbackend.modules.(*)..")
-      .should().beFreeOfCycles();
+    @ArchTest
+    ArchRule cycleCheck = slices().matching("com.rebwon.realworldbackend.modules.(*)..")
+        .should().beFreeOfCycles();
 }

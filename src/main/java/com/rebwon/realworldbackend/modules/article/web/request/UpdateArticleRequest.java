@@ -12,11 +12,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class UpdateArticleRequest {
 
-  private String title = "";
-  private String description = "";
-  private String body = "";
+    private String title = "";
+    private String description = "";
+    private String body = "";
 
-  public UpdateArticleCommand toCommand() {
-    return new UpdateArticleCommand(this.title, this.description, this.body);
-  }
+    public UpdateArticleCommand toCommand() {
+        return new UpdateArticleCommand(this.title, this.description, this.body);
+    }
 }

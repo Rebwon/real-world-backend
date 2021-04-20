@@ -15,16 +15,16 @@ import org.hibernate.validator.constraints.Length;
 @AllArgsConstructor
 public class RegisterRequest {
 
-  @NotBlank(message = "can't be empty username")
-  private String username;
-  @NotBlank(message = "can't be empty email")
-  @Email(message = "should be an email")
-  private String email;
-  @NotBlank(message = "can't be empty password")
-  @Length(min = 8, max = 50)
-  private String password;
+    @NotBlank(message = "can't be empty username")
+    private String username;
+    @NotBlank(message = "can't be empty email")
+    @Email(message = "should be an email")
+    private String email;
+    @NotBlank(message = "can't be empty password")
+    @Length(min = 8, max = 50)
+    private String password;
 
-  public RegisterCommand toCommand() {
-    return new RegisterCommand(this.username, this.email, this.password);
-  }
+    public RegisterCommand toCommand() {
+        return new RegisterCommand(this.username, this.email, this.password);
+    }
 }

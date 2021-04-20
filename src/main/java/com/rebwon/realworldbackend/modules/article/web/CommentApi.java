@@ -17,30 +17,31 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class CommentApi {
-  private final CommentFacadeService facadeService;
 
-  public CommentApi(
-      CommentFacadeService facadeService) {
-    this.facadeService = facadeService;
-  }
+    private final CommentFacadeService facadeService;
 
-  @PostMapping("/api/articles/{slug}/comments")
-  public ResponseEntity<CommentResponse> addComment(@PathVariable String slug,
-      @AuthenticationPrincipal Member member, @RequestBody @Valid AddCommentRequest request) {
-    CommentResponse response = facadeService.addComment(slug, member, request.toCommand());
-    return ResponseEntity.ok(response);
-  }
+    public CommentApi(
+        CommentFacadeService facadeService) {
+        this.facadeService = facadeService;
+    }
 
-  @GetMapping("/api/articles/{slug}/comments")
-  public ResponseEntity<List<CommentResponse>> getComments(@PathVariable String slug) {
-    List<CommentResponse> comments = facadeService.findAll(slug);
-    return ResponseEntity.ok(comments);
-  }
+    @PostMapping("/api/articles/{slug}/comments")
+    public ResponseEntity<CommentResponse> addComment(@PathVariable String slug,
+        @AuthenticationPrincipal Member member, @RequestBody @Valid AddCommentRequest request) {
+        CommentResponse response = facadeService.addComment(slug, member, request.toCommand());
+        return ResponseEntity.ok(response);
+    }
 
-  @DeleteMapping("/api/articles/{slug}/comments/{id}")
-  public ResponseEntity deleteComment(@PathVariable String slug, @PathVariable Long id,
-      @AuthenticationPrincipal Member member) {
-    facadeService.deleteComment(slug, id, member);
-    return ResponseEntity.noContent().build();
-  }
+    @GetMapping("/api/articles/{slug}/comments")
+    public ResponseEntity<List<CommentResponse>> getComments(@PathVariable String slug) {
+        List<CommentResponse> comments = facadeService.findAll(slug);
+        return ResponseEntity.ok(comments);
+    }
+
+    @DeleteMapping("/api/articles/{slug}/comments/{id}")
+    public ResponseEntity deleteComment(@PathVariable String slug, @PathVariable Long id,
+        @AuthenticationPrincipal Member member) {
+        facadeService.deleteComment(slug, id, member);
+        return ResponseEntity.noContent().build();
+    }
 }

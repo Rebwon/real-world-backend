@@ -13,22 +13,23 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @RequiredArgsConstructor
 public class MemberFacadeService {
-  private final MemberManager manager;
 
-  public Member login(LoginCommand command) {
-    return manager.login(command.getEmail(), command.getPassword());
-  }
+    private final MemberManager manager;
 
-  public Member register(RegisterCommand command) {
-    return manager.register(command.getEmail(), command.getUsername(),
-        command.getPassword());
-  }
+    public Member login(LoginCommand command) {
+        return manager.login(command.getEmail(), command.getPassword());
+    }
 
-  public Member find(Member member) {
-    return manager.find(member);
-  }
+    public Member register(RegisterCommand command) {
+        return manager.register(command.getEmail(), command.getUsername(),
+            command.getPassword());
+    }
 
-  public Member changeProfile(Member member, ProfileUpdateCommand command) {
-    return manager.changeProfile(member, command);
-  }
+    public Member find(Member member) {
+        return manager.find(member);
+    }
+
+    public Member changeProfile(Member member, ProfileUpdateCommand command) {
+        return manager.changeProfile(member, command);
+    }
 }

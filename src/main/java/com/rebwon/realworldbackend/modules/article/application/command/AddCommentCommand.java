@@ -4,9 +4,10 @@ import lombok.Getter;
 
 @Getter
 public class AddCommentCommand {
-  private final String body;
 
-  public AddCommentCommand(String body) {
-    this.body = body;
-  }
+    private final String body;
+
+    public AddCommentCommand(String body) {
+        this.body = body;
+    }
 }

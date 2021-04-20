@@ -4,7 +4,7 @@ import com.rebwon.realworldbackend.modules.common.exception.SystemException;
 
 public class CommentNotFoundException extends SystemException {
 
-  public CommentNotFoundException(String message) {
-    super(message);
-  }
+    public CommentNotFoundException(String message) {
+        super(message);
+    }
 }

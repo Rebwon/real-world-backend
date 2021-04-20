@@ -16,28 +16,28 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class CommentFacadeService {
 
-  private final CommentManager commentManager;
+    private final CommentManager commentManager;
 
-  public CommentFacadeService(
-      CommentManager commentManager) {
-    this.commentManager = commentManager;
-  }
+    public CommentFacadeService(
+        CommentManager commentManager) {
+        this.commentManager = commentManager;
+    }
 
-  public CommentResponse addComment(String slug, Member member, AddCommentCommand command) {
-    Comment comment = commentManager.addComment(slug, member, command);
-    ProfileMember profileMember = new ProfileMember(member);
-    return CommentResponse.of(comment, ProfileResponse.of(profileMember));
-  }
+    public CommentResponse addComment(String slug, Member member, AddCommentCommand command) {
+        Comment comment = commentManager.addComment(slug, member, command);
+        ProfileMember profileMember = new ProfileMember(member);
+        return CommentResponse.of(comment, ProfileResponse.of(profileMember));
+    }
 
-  public List<CommentResponse> findAll(String slug) {
-    return commentManager.findComments(slug)
-        .stream()
-        .map(comment -> CommentResponse
-            .of(comment, ProfileResponse.of(new ProfileMember(comment.getAuthor()))))
-        .collect(Collectors.toList());
-  }
+    public List<CommentResponse> findAll(String slug) {
+        return commentManager.findComments(slug)
+            .stream()
+            .map(comment -> CommentResponse
+                .of(comment, ProfileResponse.of(new ProfileMember(comment.getAuthor()))))
+            .collect(Collectors.toList());
+    }
 
-  public void deleteComment(String slug, Long commentId, Member member) {
-    commentManager.deleteComment(slug, commentId, member);
-  }
+    public void deleteComment(String slug, Long commentId, Member member) {
+        commentManager.deleteComment(slug, commentId, member);
+    }
 }

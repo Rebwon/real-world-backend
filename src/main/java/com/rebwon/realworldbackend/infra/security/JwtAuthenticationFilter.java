@@ -19,37 +19,37 @@ import org.springframework.web.filter.OncePerRequestFilter;
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-  private static final String AUTHORIZATION_HEADER = "Authorization";
+    private static final String AUTHORIZATION_HEADER = "Authorization";
 
-  private final String signKey;
-  private final MemberRepository memberRepository;
+    private final String signKey;
+    private final MemberRepository memberRepository;
 
-  public JwtAuthenticationFilter(@Value("${token.signKey}") String signKey,
-      MemberRepository memberRepository) {
-    this.signKey = signKey;
-    this.memberRepository = memberRepository;
-  }
+    public JwtAuthenticationFilter(@Value("${token.signKey}") String signKey,
+        MemberRepository memberRepository) {
+        this.signKey = signKey;
+        this.memberRepository = memberRepository;
+    }
 
-  @Override
-  protected void doFilterInternal(HttpServletRequest request,
-      HttpServletResponse response, FilterChain filterChain)
-      throws ServletException, IOException {
-    TokenExtractor tokenExtractor = new TokenExtractor(request.getHeader(AUTHORIZATION_HEADER));
-    tokenExtractor.extract().ifPresent(rawAccessToken -> {
+    @Override
+    protected void doFilterInternal(HttpServletRequest request,
+        HttpServletResponse response, FilterChain filterChain)
+        throws ServletException, IOException {
+        TokenExtractor tokenExtractor = new TokenExtractor(request.getHeader(AUTHORIZATION_HEADER));
+        tokenExtractor.extract().ifPresent(rawAccessToken -> {
 
-      TokenVerifier tokenVerifier = new TokenVerifier(signKey, rawAccessToken);
-      String subject = tokenVerifier.parseClaims().orElseThrow(TokenParseErrorException::new);
-      Member member = memberRepository.findByEmail(subject)
-          .orElseThrow(MemberNotFoundException::new);
+            TokenVerifier tokenVerifier = new TokenVerifier(signKey, rawAccessToken);
+            String subject = tokenVerifier.parseClaims().orElseThrow(TokenParseErrorException::new);
+            Member member = memberRepository.findByEmail(subject)
+                .orElseThrow(MemberNotFoundException::new);
 
-      if (SecurityContextHolder.getContext().getAuthentication() == null) {
-        UsernamePasswordAuthenticationToken token =
-            new UsernamePasswordAuthenticationToken(member, null, Collections.emptyList());
-        token.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-        SecurityContextHolder.getContext().setAuthentication(token);
-      }
-    });
+            if (SecurityContextHolder.getContext().getAuthentication() == null) {
+                UsernamePasswordAuthenticationToken token =
+                    new UsernamePasswordAuthenticationToken(member, null, Collections.emptyList());
+                token.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                SecurityContextHolder.getContext().setAuthentication(token);
+            }
+        });
 
-    filterChain.doFilter(request, response);
-  }
+        filterChain.doFilter(request, response);
+    }
 }

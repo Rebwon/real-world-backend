@@ -4,7 +4,7 @@ import com.rebwon.realworldbackend.modules.common.exception.SystemException;
 
 public class WrongAuthorException extends SystemException {
 
-  public WrongAuthorException(String message) {
-    super(message);
-  }
+    public WrongAuthorException(String message) {
+        super(message);
+    }
 }

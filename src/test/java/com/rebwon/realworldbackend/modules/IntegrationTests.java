@@ -18,19 +18,21 @@ import org.springframework.transaction.annotation.Transactional;
 @AutoConfigureMockMvc
 @Transactional
 public abstract class IntegrationTests {
-  protected static final String AUTHORIZATION = "Authorization";
 
-  @Autowired protected ObjectMapper objectMapper;
-  @Autowired protected MockMvc mockMvc;
-  @Autowired protected MemberRepository memberRepository;
-  @Autowired private PasswordEncoder passwordEncoder;
-  @Autowired private TokenFactory tokenFactory;
-  protected String setUpToken;
-  protected Member setupMember;
+    protected static final String AUTHORIZATION = "Authorization";
 
-  @BeforeEach
-  protected void setUp() {
-    setupMember = memberRepository.save(Member.register("rebwon@gmail.com", "rebwon", passwordEncoder.encode("password")));
-    setUpToken = "Token " + tokenFactory.create(setupMember.getEmail());
-  }
+    @Autowired protected ObjectMapper objectMapper;
+    @Autowired protected MockMvc mockMvc;
+    @Autowired protected MemberRepository memberRepository;
+    @Autowired private PasswordEncoder passwordEncoder;
+    @Autowired private TokenFactory tokenFactory;
+    protected String setUpToken;
+    protected Member setupMember;
+
+    @BeforeEach
+    protected void setUp() {
+        setupMember = memberRepository.save(
+            Member.register("rebwon@gmail.com", "rebwon", passwordEncoder.encode("password")));
+        setUpToken = "Token " + tokenFactory.create(setupMember.getEmail());
+    }
 }

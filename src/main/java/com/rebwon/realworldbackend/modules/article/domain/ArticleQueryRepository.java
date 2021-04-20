@@ -11,50 +11,52 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class ArticleQueryRepository {
-  private final JPAQueryFactory queryFactory;
 
-  public ArticleQueryRepository(JPAQueryFactory queryFactory) {
-    this.queryFactory = queryFactory;
-  }
+    private final JPAQueryFactory queryFactory;
 
-  public List<Long> findAll(String tagName, String favoritesName, String authorName, int offset, int limit) {
-    return queryFactory.selectDistinct(article.id)
-        .from(article)
-        .leftJoin(article.tags, QTag.tag)
-        .leftJoin(article.author, QMember.member)
-        .leftJoin(article.favorites, QMember.member)
-        .where(eqTagName(tagName), eqFavoritesName(favoritesName), eqAuthorName(authorName))
-        .offset(offset)
-        .limit(limit)
-        .fetch();
-  }
-
-  public List<Article> findAllById(List<Long> idList) {
-    return queryFactory.selectFrom(article)
-        .innerJoin(article.author, QMember.member).fetchJoin()
-        .where(article.id.in(idList))
-        .orderBy(article.changeHistory.createdAt.desc())
-        .fetch();
-  }
-
-  private BooleanExpression eqTagName(String tagName) {
-    if(tagName.isEmpty() && tagName.isBlank()) {
-      return null;
+    public ArticleQueryRepository(JPAQueryFactory queryFactory) {
+        this.queryFactory = queryFactory;
     }
-    return QTag.tag.name.eq(tagName);
-  }
 
-  private BooleanExpression eqAuthorName(String authorName) {
-    if(authorName.isEmpty() && authorName.isBlank()) {
-      return null;
+    public List<Long> findAll(String tagName, String favoritesName, String authorName, int offset,
+        int limit) {
+        return queryFactory.selectDistinct(article.id)
+            .from(article)
+            .leftJoin(article.tags, QTag.tag)
+            .leftJoin(article.author, QMember.member)
+            .leftJoin(article.favorites, QMember.member)
+            .where(eqTagName(tagName), eqFavoritesName(favoritesName), eqAuthorName(authorName))
+            .offset(offset)
+            .limit(limit)
+            .fetch();
     }
-    return article.author.username.eq(authorName);
-  }
 
-  private BooleanExpression eqFavoritesName(String favoritesName) {
-    if(favoritesName.isEmpty() && favoritesName.isBlank()) {
-      return null;
+    public List<Article> findAllById(List<Long> idList) {
+        return queryFactory.selectFrom(article)
+            .innerJoin(article.author, QMember.member).fetchJoin()
+            .where(article.id.in(idList))
+            .orderBy(article.changeHistory.createdAt.desc())
+            .fetch();
     }
-    return QMember.member.username.eq(favoritesName);
-  }
+
+    private BooleanExpression eqTagName(String tagName) {
+        if (tagName.isEmpty() && tagName.isBlank()) {
+            return null;
+        }
+        return QTag.tag.name.eq(tagName);
+    }
+
+    private BooleanExpression eqAuthorName(String authorName) {
+        if (authorName.isEmpty() && authorName.isBlank()) {
+            return null;
+        }
+        return article.author.username.eq(authorName);
+    }
+
+    private BooleanExpression eqFavoritesName(String favoritesName) {
+        if (favoritesName.isEmpty() && favoritesName.isBlank()) {
+            return null;
+        }
+        return QMember.member.username.eq(favoritesName);
+    }
 }

@@ -13,36 +13,36 @@ import org.springframework.test.annotation.Rollback;
 
 public class ArticlePersistenceTest extends PersistenceExtension {
 
-  @Autowired
-  private ArticleRepository articleRepository;
+    @Autowired
+    private ArticleRepository articleRepository;
 
-  @Autowired
-  private MemberRepository memberRepository;
+    @Autowired
+    private MemberRepository memberRepository;
 
-  @BeforeEach
-  void setUp() {
-    Member author = memberRepository
-        .save(Member.register("rebwon@gmail.com", "rebwon", "password"));
-    articleRepository.save(Article.create("test title", "test desc", "test body", author));
-  }
+    @BeforeEach
+    void setUp() {
+        Member author = memberRepository
+            .save(Member.register("rebwon@gmail.com", "rebwon", "password"));
+        articleRepository.save(Article.create("test title", "test desc", "test body", author));
+    }
 
-  @AfterEach
-  void tearDown() {
-    articleRepository.deleteAll();
-    memberRepository.deleteAll();
-  }
+    @AfterEach
+    void tearDown() {
+        articleRepository.deleteAll();
+        memberRepository.deleteAll();
+    }
 
-  @Test
-  @Rollback(value = false)
-  void should_article_write() {
-    Article article = articleRepository.findBySlug_Value("test-title").get();
-    article.modify("spring boot", "spring desc", "spring body");
+    @Test
+    @Rollback(value = false)
+    void should_article_write() {
+        Article article = articleRepository.findBySlug_Value("test-title").get();
+        article.modify("spring boot", "spring desc", "spring body");
 
-    assertThat(article.getBody()).isEqualTo("spring body");
-    assertThat(article.getTitle()).isEqualTo("spring boot");
-    assertThat(article.getSlug().value()).isEqualTo("spring-boot");
-    assertThat(article.getDescription()).isEqualTo("spring desc");
-    assertThat(article.getChangeHistory().getCreatedAt())
-        .isBefore(article.getChangeHistory().getModifiedAt());
-  }
+        assertThat(article.getBody()).isEqualTo("spring body");
+        assertThat(article.getTitle()).isEqualTo("spring boot");
+        assertThat(article.getSlug().value()).isEqualTo("spring-boot");
+        assertThat(article.getDescription()).isEqualTo("spring desc");
+        assertThat(article.getChangeHistory().getCreatedAt())
+            .isBefore(article.getChangeHistory().getModifiedAt());
+    }
 }

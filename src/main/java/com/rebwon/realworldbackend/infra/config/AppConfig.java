@@ -14,25 +14,26 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 public class AppConfig {
-  @Autowired
-  private EntityManager em;
 
-  @Bean
-  public JPAQueryFactory jpaQueryFactory() {
-    return new JPAQueryFactory(em);
-  }
+    @Autowired
+    private EntityManager em;
 
-  @Bean
-  public PasswordEncoder passwordEncoder() {
-    return new BCryptPasswordEncoder();
-  }
+    @Bean
+    public JPAQueryFactory jpaQueryFactory() {
+        return new JPAQueryFactory(em);
+    }
 
-  @Bean
-  public Jackson2ObjectMapperBuilder jackson2ObjectMapperBuilder() {
-    return new Jackson2ObjectMapperBuilder()
-        .modules(new JavaTimeModule())
-        .featuresToDisable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
-        .featuresToEnable(SerializationFeature.WRAP_ROOT_VALUE)
-        .featuresToEnable(DeserializationFeature.UNWRAP_ROOT_VALUE);
-  }
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public Jackson2ObjectMapperBuilder jackson2ObjectMapperBuilder() {
+        return new Jackson2ObjectMapperBuilder()
+            .modules(new JavaTimeModule())
+            .featuresToDisable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
+            .featuresToEnable(SerializationFeature.WRAP_ROOT_VALUE)
+            .featuresToEnable(DeserializationFeature.UNWRAP_ROOT_VALUE);
+    }
 }

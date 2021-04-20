@@ -11,37 +11,38 @@ import lombok.Getter;
 @JsonRootName("article")
 public class ArticleResponse {
 
-  private final String slug;
-  private final String title;
-  private final String description;
-  private final String body;
-  private final String[] tagList;
-  private final LocalDateTime createdAt;
-  private final LocalDateTime modifiedAt;
-  private final boolean favorited;
-  private final int favoritesCount;
-  private final ProfileResponse author;
+    private final String slug;
+    private final String title;
+    private final String description;
+    private final String body;
+    private final String[] tagList;
+    private final LocalDateTime createdAt;
+    private final LocalDateTime modifiedAt;
+    private final boolean favorited;
+    private final int favoritesCount;
+    private final ProfileResponse author;
 
-  private ArticleResponse(String slug, String title, String description, String body,
-      String[] tagList, LocalDateTime createdAt, LocalDateTime modifiedAt, boolean favorited,
-      int favoritesCount, ProfileResponse author) {
-    this.slug = slug;
-    this.title = title;
-    this.description = description;
-    this.body = body;
-    this.tagList = tagList;
-    this.createdAt = createdAt;
-    this.modifiedAt = modifiedAt;
-    this.favorited = favorited;
-    this.favoritesCount = favoritesCount;
-    this.author = author;
-  }
+    private ArticleResponse(String slug, String title, String description, String body,
+        String[] tagList, LocalDateTime createdAt, LocalDateTime modifiedAt, boolean favorited,
+        int favoritesCount, ProfileResponse author) {
+        this.slug = slug;
+        this.title = title;
+        this.description = description;
+        this.body = body;
+        this.tagList = tagList;
+        this.createdAt = createdAt;
+        this.modifiedAt = modifiedAt;
+        this.favorited = favorited;
+        this.favoritesCount = favoritesCount;
+        this.author = author;
+    }
 
-  public static ArticleResponse of(Article article, String[] tagList, ProfileMember member) {
-    return new ArticleResponse(article.getSlug().value(), article.getTitle(),
-        article.getDescription(), article.getBody(), tagList, article.getChangeHistory()
-        .getCreatedAt(), article.getChangeHistory().getModifiedAt(), article.favorited(member.getMember()),
-        article.favoritesCount(),
-        ProfileResponse.of(member));
-  }
+    public static ArticleResponse of(Article article, String[] tagList, ProfileMember member) {
+        return new ArticleResponse(article.getSlug().value(), article.getTitle(),
+            article.getDescription(), article.getBody(), tagList, article.getChangeHistory()
+            .getCreatedAt(), article.getChangeHistory().getModifiedAt(),
+            article.favorited(member.getMember()),
+            article.favoritesCount(),
+            ProfileResponse.of(member));
+    }
 }

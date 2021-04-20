@@ -4,7 +4,7 @@ import com.rebwon.realworldbackend.modules.common.exception.SystemException;
 
 public class PasswordNotMatchedException extends SystemException {
 
-  public PasswordNotMatchedException() {
-    super("password not matched");
-  }
+    public PasswordNotMatchedException() {
+        super("password not matched");
+    }
 }

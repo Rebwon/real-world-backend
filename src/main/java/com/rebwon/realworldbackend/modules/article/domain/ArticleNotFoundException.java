@@ -4,7 +4,7 @@ import com.rebwon.realworldbackend.modules.common.exception.SystemException;
 
 public class ArticleNotFoundException extends SystemException {
 
-  public ArticleNotFoundException() {
-    super("article not found");
-  }
+    public ArticleNotFoundException() {
+        super("article not found");
+    }
 }
