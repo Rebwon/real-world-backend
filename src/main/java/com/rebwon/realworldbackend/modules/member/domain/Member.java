@@ -72,16 +72,24 @@ public class Member {
     }
 
     public static Member register(String email, String username, String password) {
+        verifyNotNull(username, email, password);
         return new Member(null, email, username, password, "", "");
     }
 
     public void changeProfile(String username, String email, String password, String bio,
         String image) {
+        verifyNotNull(username, email, password);
         this.username = username;
         this.email = email;
         this.password = password;
         this.image = image;
         this.bio = bio;
+    }
+
+    private static void verifyNotNull(String username, String email, String password) {
+        Assert.notNull(email, "email has null");
+        Assert.notNull(username, "username has null");
+        Assert.notNull(password, "password has null");
     }
 
     public void follow(Member target) {

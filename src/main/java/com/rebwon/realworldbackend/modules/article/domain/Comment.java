@@ -13,6 +13,7 @@ import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.util.Assert;
 
 @Entity
 @Getter
@@ -44,6 +45,9 @@ public class Comment {
     }
 
     public static Comment write(String body, Article article, Member author) {
+        Assert.notNull(body, "body has null");
+        Assert.notNull(article, "article has null");
+        Assert.notNull(author, "author has null");
         return new Comment(null, body, article, author);
     }
 

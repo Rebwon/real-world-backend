@@ -252,7 +252,7 @@ public class MemberApiTests extends IntegrationTests {
             .andExpect(jsonPath("$.user.bio").value("sample"))
             .andExpect(jsonPath("$.user.image").value("sample"));
 
-        assertThat(setupMember.getChangeHistory().getCreatedAt()).isBefore(
-            setupMember.getChangeHistory().getModifiedAt());
+        assertThat(setupMember.getChangeHistory().getCreatedAt())
+            .isBefore(setupMember.getChangeHistory().getModifiedAt());
     }
 }

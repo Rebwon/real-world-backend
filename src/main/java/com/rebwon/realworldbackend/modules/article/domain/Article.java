@@ -3,7 +3,9 @@ package com.rebwon.realworldbackend.modules.article.domain;
 import com.rebwon.realworldbackend.modules.common.domain.ChangeHistory;
 import com.rebwon.realworldbackend.modules.member.domain.Member;
 import com.rebwon.realworldbackend.modules.member.domain.MemberNotFoundException;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -21,6 +23,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.util.Assert;
 
 @Entity
 @Getter
@@ -59,7 +62,7 @@ public class Article {
         joinColumns = @JoinColumn(name = "article_id"),
         inverseJoinColumns = @JoinColumn(name = "member_id")
     )
-    private Set<Member> favorites = new HashSet<>();
+    private List<Member> favorites = new ArrayList<>();
 
     private Article(Long id, String title, Slug slug, String description, String body,
         Member author) {
@@ -73,14 +76,22 @@ public class Article {
     }
 
     public static Article create(String title, String description, String body, Member author) {
+        verifyNotNull(title, description, body);
         return new Article(null, title, Slug.from(title), description, body, author);
     }
 
     public void modify(String title, String description, String body) {
+        verifyNotNull(title, description, body);
         this.title = title;
         this.slug = Slug.from(title);
         this.description = description;
         this.body = body;
+    }
+
+    private static void verifyNotNull(String title, String description, String body) {
+        Assert.notNull(title, "title has null");
+        Assert.notNull(description, "description has null");
+        Assert.notNull(body, "body has null");
     }
 
     public void addTag(Tag tag) {

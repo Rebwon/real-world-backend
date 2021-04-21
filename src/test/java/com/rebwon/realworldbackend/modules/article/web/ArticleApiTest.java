@@ -245,8 +245,8 @@ class ArticleApiTest extends IntegrationTests {
             .andExpect(jsonPath("$.article.title").value("change article"))
             .andExpect(jsonPath("$.article.slug").value("change-article"));
 
-        assertThat(article.getChangeHistory().getCreatedAt()).isBefore(
-            article.getChangeHistory().getModifiedAt());
+        assertThat(article.getChangeHistory().getCreatedAt())
+            .isBefore(article.getChangeHistory().getModifiedAt());
     }
 
     @Test
